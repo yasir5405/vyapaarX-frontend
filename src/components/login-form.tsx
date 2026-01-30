@@ -23,6 +23,7 @@ import { useState } from "react";
 import { InputGroup, InputGroupAddon, InputGroupInput } from "./ui/input-group";
 import { Eye, EyeClosed } from "lucide-react";
 import { Spinner } from "./ui/spinner";
+import { useAuth } from "@/context/AuthContext";
 
 export function LoginForm({
   className,
@@ -37,6 +38,8 @@ export function LoginForm({
     formState: { errors },
     setError,
   } = useForm<LoginPayload>();
+
+  const { refreshUser } = useAuth();
 
   const handleLogin: SubmitHandler<LoginPayload> = async (
     data: LoginPayload,
@@ -69,8 +72,9 @@ export function LoginForm({
         return;
       }
 
+      localStorage.setItem("access-token", String(res.data?.accessToken));
+      await refreshUser();
       toast.success("Login successful");
-      localStorage.setItem("acces-token", String(res.data?.accessToken));
       navigate("/");
     } catch (error) {
       setError("root", {

@@ -17,6 +17,15 @@ export type LoginSuccessData = {
   accessToken: string;
 };
 
+export type User = {
+  name: string;
+  email: string;
+  role: "Admin" | "User";
+  createdAt: Date;
+  updatedAt: Date;
+  id: number;
+};
+
 export const register = async (
   payload: RegisterPayload,
 ): Promise<ApiResponse<null>> => {
@@ -74,6 +83,64 @@ export const login = async (
       success: false,
       error: {
         message: "Error logging in. Please try again",
+      },
+    };
+  }
+};
+
+export const getMe = async (): Promise<ApiResponse<User>> => {
+  try {
+    const res = await api.get("/auth/me");
+    return res.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      return (
+        error.response?.data ?? {
+          data: null,
+          message: "User data fetching failed",
+          success: false,
+          error: {
+            message: "Server did not respond",
+          },
+        }
+      );
+    }
+
+    return {
+      data: null,
+      message: "User data fetching failed",
+      success: false,
+      error: {
+        message: "Error fetching user data. Please try again",
+      },
+    };
+  }
+};
+
+export const logoutUser = async (): Promise<ApiResponse<null>> => {
+  try {
+    const res = await api.get("/auth/logout");
+    return res.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      return (
+        error.response?.data ?? {
+          data: null,
+          message: "Logout failed",
+          success: false,
+          error: {
+            message: "Server did not respond",
+          },
+        }
+      );
+    }
+
+    return {
+      data: null,
+      message: "Logout failed",
+      success: false,
+      error: {
+        message: "Error logging out. Please try again",
       },
     };
   }

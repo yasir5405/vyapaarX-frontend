@@ -13,8 +13,6 @@ const App = () => {
 
       <Route element={<AppLayout />}>
         <Route path="/" element={<Home />} />
-        <Route path="/s" element={<Home />} />
-        <Route path="/t" element={<Home />} />
       </Route>
     </Routes>
   );
