@@ -17,6 +17,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const refreshUser = async () => {
     const hadToken = !!localStorage.getItem("access-token");
+    
+    if (!hadToken) {
+      setUser(null);
+      return;
+    }
+    
     const res = await getMe();
 
     if (res.success) {
@@ -24,10 +30,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     } else {
       setUser(null);
       localStorage.removeItem("access-token");
-
-      if (hadToken) {
-        toast.error(res.error?.message ?? res.message ?? "Session expired");
-      }
+      toast.error(res.error?.message ?? res.message ?? "Session expired");
     }
   };
 
