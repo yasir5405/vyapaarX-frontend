@@ -26,6 +26,15 @@ export type User = {
   id: number;
 };
 
+export type ResetPasswordParams = {
+  email: string;
+};
+
+export type ResetPasswordChangeParams = {
+  password: string;
+  confirmPassword: string;
+};
+
 export const register = async (
   payload: RegisterPayload,
 ): Promise<ApiResponse<null>> => {
@@ -141,6 +150,79 @@ export const logoutUser = async (): Promise<ApiResponse<null>> => {
       success: false,
       error: {
         message: "Error logging out. Please try again",
+      },
+    };
+  }
+};
+
+export const forgotPassword = async (
+  payload: ResetPasswordParams,
+): Promise<ApiResponse<null>> => {
+  try {
+    const res = await api.post("/auth/forgot-password", payload);
+    return res.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      return (
+        error.response?.data ?? {
+          data: null,
+          message: "Password reset failed",
+          success: false,
+          error: {
+            message: "Server did not respond",
+          },
+        }
+      );
+    }
+
+    return {
+      data: null,
+      message: "Password reset",
+      success: false,
+      error: {
+        message: "Error sending password reset link. Please try again",
+      },
+    };
+  }
+};
+
+export const resetPassword = async (
+  payload: ResetPasswordChangeParams,
+  token: string,
+): Promise<ApiResponse<null>> => {
+  if (!token) {
+    return {
+      data: null,
+      success: false,
+      message: "Invalid or expired reset token",
+      error: {
+        message: "Reset token is missing",
+      },
+    };
+  }
+  try {
+    const res = await api.post(`/auth/reset-password?token=${token}`, payload);
+    return res.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      return (
+        error.response?.data ?? {
+          data: null,
+          message: "Password reset failed",
+          success: false,
+          error: {
+            message: "Server did not respond",
+          },
+        }
+      );
+    }
+
+    return {
+      data: null,
+      message: "Password reset",
+      success: false,
+      error: {
+        message: "Error sending password reset link. Please try again",
       },
     };
   }

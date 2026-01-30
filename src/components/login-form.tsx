@@ -68,7 +68,9 @@ export function LoginForm({
           });
         }
 
+        toast.error(message);
         console.log(message);
+        setLoading(false);
         return;
       }
 
@@ -98,7 +100,12 @@ export function LoginForm({
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleSubmit(handleLogin)}>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleSubmit(handleLogin)(e);
+            }}
+          >
             <FieldGroup>
               <Field>
                 <Button variant="outline" type="button">
@@ -139,7 +146,15 @@ export function LoginForm({
               </Field>
               <Field>
                 <Field>
-                  <FieldLabel htmlFor="password">Password</FieldLabel>
+                  <div className="flex items-center">
+                    <FieldLabel htmlFor="password">Password</FieldLabel>
+                    <Link
+                      className="ml-auto text-sm underline-offset-4 hover:underline"
+                      to={"/forgot-password"}
+                    >
+                      Forgot your password?
+                    </Link>
+                  </div>
                   <InputGroup>
                     <InputGroupInput
                       id="password"
@@ -181,14 +196,14 @@ export function LoginForm({
                 <Button type="submit">
                   {loading ? (
                     <span className="flex gap-2">
-                      <Spinner /> Signing up...
+                      <Spinner /> Logging in...
                     </span>
                   ) : (
-                    <p>Sign up</p>
+                    <p>Log in</p>
                   )}
                 </Button>
                 <FieldDescription className="text-center">
-                  Already have an account? <Link to="/login">Sign in</Link>
+                  Don't have an account? <Link to="/signup">Sign up</Link>
                 </FieldDescription>
               </Field>
             </FieldGroup>
@@ -197,8 +212,8 @@ export function LoginForm({
       </Card>
       <FieldDescription className="px-6 text-center">
         By clicking continue, you agree to our{" "}
-        <Link to="#">Terms of Service</Link> and{" "}
-        <Link to="#">Privacy Policy</Link>.
+        <Link to="/terms">Terms of Service</Link> and{" "}
+        <Link to="/privacy">Privacy Policy</Link>.
       </FieldDescription>
     </div>
   );

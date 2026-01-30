@@ -50,6 +50,15 @@ api.interceptors.response.use(
       return Promise.reject(error);
     }
 
+    if (
+      originalRequest.url?.includes("/auth/login") ||
+      originalRequest.url?.includes("/auth/register") ||
+      originalRequest.url?.includes("/auth/forgot-password") ||
+      originalRequest.url?.includes("/auth/reset-password")
+    ) {
+      return Promise.reject(error);
+    }
+
     // Don't retry if this is already a refresh token request
     if (originalRequest.url?.includes("/auth/refresh-token")) {
       return Promise.reject(error);

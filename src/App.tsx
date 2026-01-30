@@ -1,6 +1,14 @@
 import { Route, Routes } from "react-router-dom";
 import AuthLayout from "./layouts/AuthLayout";
-import { Admin, Home, Login, Register, Unauthorized } from "./pages";
+import {
+  Admin,
+  ForgotPassword,
+  Home,
+  Login,
+  Register,
+  ResetPassword,
+  Unauthorized,
+} from "./pages";
 import AppLayout from "./layouts/AppLayout";
 import ProtectedRoutes from "./components/Protected/ProtectedRoutes";
 import GuestOnly from "./components/GuestOnly";
@@ -12,6 +20,8 @@ const App = () => {
         <Route element={<AuthLayout />}>
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Register />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
         </Route>
       </Route>
 

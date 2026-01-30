@@ -97,7 +97,12 @@ export function SignupForm({
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleSubmit(handleSignup)}>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleSubmit(handleSignup)(e);
+            }}
+          >
             <FieldGroup>
               <Field>
                 <FieldLabel htmlFor="name">Full Name</FieldLabel>
@@ -166,7 +171,7 @@ export function SignupForm({
                 </p>
               )}
               <Field>
-                <Button type="submit">
+                <Button type="submit" disabled={loading}>
                   {loading ? (
                     <span className="flex gap-2">
                       <Spinner /> Signing up...
@@ -185,8 +190,8 @@ export function SignupForm({
       </Card>
       <FieldDescription className="px-6 text-center">
         By clicking continue, you agree to our{" "}
-        <Link to="#">Terms of Service</Link> and{" "}
-        <Link to="#">Privacy Policy</Link>.
+        <Link to="/terms">Terms of Service</Link> and{" "}
+        <Link to="/privacy">Privacy Policy</Link>.
       </FieldDescription>
     </div>
   );

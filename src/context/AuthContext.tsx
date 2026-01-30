@@ -15,14 +15,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
-  const refreshUser = async () => {
-    const hadToken = !!localStorage.getItem("access-token");
-    
+  const refreshUser = async (silent = false) => {
+    const hadToken = localStorage.getItem("access-token");
+
     if (!hadToken) {
-      setUser(null);
       return;
     }
-    
+
     const res = await getMe();
 
     if (res.success) {
@@ -30,13 +29,17 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     } else {
       setUser(null);
       localStorage.removeItem("access-token");
-      toast.error(res.error?.message ?? res.message ?? "Session expired");
+      localStorage.removeItem("access-token");
+
+      if (!silent) {
+        toast.error(res.error?.message ?? res.message ?? "Session expired");
+      }
     }
   };
 
   useEffect(() => {
     (async () => {
-      await refreshUser();
+      await refreshUser(true);
       setLoading(false);
     })();
   }, []);
