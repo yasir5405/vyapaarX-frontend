@@ -1,18 +1,12 @@
-import { getMe, type User } from "@/api/auth.api";
-import { useEffect, useState } from "react";
+import LogoutButton from "@/components/LogoutButton";
+import { useAuth } from "@/context/AuthContext";
 
 const Home = () => {
-  const [user, setUser] = useState<User | null>(null);
-  useEffect(() => {
-    const findUser = async () => {
-      const u = await getMe();
-      setUser(u.data);
-    };
-    findUser();
-  });
+  const { user } = useAuth();
   return (
     <div>
       <h1>Welcome {user?.name}</h1>
+      <LogoutButton />
     </div>
   );
 };

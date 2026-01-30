@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export type ApiError = {
   message: string;
   code?: string;
@@ -46,6 +47,11 @@ api.interceptors.response.use(
     const originalRequest = error.config;
 
     if (error.response?.status !== 401) {
+      return Promise.reject(error);
+    }
+
+    // Don't retry if this is already a refresh token request
+    if (originalRequest.url?.includes("/auth/refresh-token")) {
       return Promise.reject(error);
     }
 
