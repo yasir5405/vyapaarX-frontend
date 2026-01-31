@@ -11,6 +11,10 @@ export type ApiResponse<T> = {
   error?: ApiError;
 };
 
+export type PaginatedResponse<T> = ApiResponse<T> & {
+  nextCursor?: number | null;
+};
+
 import axios from "axios";
 
 const api = axios.create({

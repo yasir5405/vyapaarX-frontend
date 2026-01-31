@@ -12,7 +12,7 @@ export const formUrlQuery = ({ key, params, value }: UrlQueryParams) => {
 
   const newQuery = qs.stringify(queryString);
 
-  return `${window.location.pathname}/?${newQuery}`;
+  return `${window.location.pathname}/products/?${newQuery}`;
 };
 
 interface RemoveUrlQueryParmas {
@@ -32,5 +32,5 @@ export const removeKeysFromUrl = ({
 
   const newQuery = qs.stringify(queryString, { skipNull: true });
 
-  return `${window.location.pathname}/?${newQuery}`;
+  return `${window.location.pathname}/products/?${newQuery}`;
 };

@@ -24,8 +24,8 @@ const NavBarActions = () => {
   ];
   return (
     <div className="h-full flex items-center justify-center gap-1">
-      {buttons.map((button) => (
-        <ButtonGroup orientation={"vertical"}>
+      {buttons.map((button, idx) => (
+        <ButtonGroup orientation={"vertical"} key={idx}>
           <Button
             variant={"ghost"}
             className="flex flex-col h-full text-xs font-semibold"

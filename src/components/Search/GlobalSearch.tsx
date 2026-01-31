@@ -26,7 +26,7 @@ const GlobalSearch = () => {
       return;
     } else {
       newUrl = formUrlQuery({
-        key: "search",
+        key: "query",
         params: searchParams.toString(),
         value: data.query,
       });
@@ -40,6 +40,7 @@ const GlobalSearch = () => {
       <InputGroup className="max-w-lg bg-muted">
         <InputGroupInput
           placeholder="Search products, brands and more"
+          autoComplete="off"
           {...register("query")}
         />
         <InputGroupAddon>
