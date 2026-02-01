@@ -1,4 +1,5 @@
 import { getProducts } from "@/api/product.api";
+import HomePageCarousel from "@/components/carousel/HomePageCarousel";
 import LogoutButton from "@/components/LogoutButton";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/AuthContext";
@@ -24,11 +25,13 @@ const Home = () => {
     }
   };
   return (
-    <div>
-      <h1>Welcome {user?.name}</h1>
+    <div className="h-dvh w-full">
+      {/* <h1>Welcome {user?.name}</h1>
       <LogoutButton />
 
-      <Button onClick={fetchProducts}>Fetch products</Button>
+      <Button onClick={fetchProducts}>Fetch products</Button> */}
+
+      <HomePageCarousel />
     </div>
   );
 };

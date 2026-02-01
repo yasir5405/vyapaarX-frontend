@@ -3,7 +3,7 @@ import { Outlet } from "react-router-dom";
 
 const AppLayout = () => {
   return (
-    <div className="min-h-dvh w-full relative py-26 px-16">
+    <div className="min-h-dvh w-full relative py-26 px-12">
       <Navbar />
       <main>
         <Outlet />
