@@ -12,6 +12,7 @@ const ProductsDetails = () => {
   const [product, setProduct] = useState<Products | null>(null);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     const fetchProduct = async () => {
       try {
         const res = await getProduct(productId!);

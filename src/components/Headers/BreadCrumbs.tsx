@@ -30,7 +30,7 @@ const BreadCrumbs = ({ productName }: BreadCrumbProps) => {
         }
 
         const label =
-          segment === "products" ? "Product" : segment.replace("-", " ");
+          segment === "products" ? "Products" : segment.replace("-", " ");
 
         const href = "/" + segments.slice(0, idx + 1).join("/");
 
@@ -39,7 +39,7 @@ const BreadCrumbs = ({ productName }: BreadCrumbProps) => {
             <ChevronRight className="mx-2 h-4 w-4" />
 
             {isLast ? (
-              <span className="font-medium text-foreground capitalize">
+              <span className="font-bold text-foreground capitalize">
                 {label}
               </span>
             ) : (
