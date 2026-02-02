@@ -12,6 +12,7 @@ import {
 import AppLayout from "./layouts/AppLayout";
 import ProtectedRoutes from "./components/Protected/ProtectedRoutes";
 import GuestOnly from "./components/GuestOnly";
+import ProductsDetails from "./pages/ProductsDetails";
 
 const App = () => {
   return (
@@ -27,9 +28,13 @@ const App = () => {
 
       <Route element={<ProtectedRoutes />}>
         <Route element={<AppLayout />}>
-          <Route path="/" element={<Home />} />
           <Route path="/unauthorized" element={<Unauthorized />} />
         </Route>
+      </Route>
+
+      <Route element={<AppLayout />}>
+        <Route path="/" element={<Home />} />
+        <Route path="/products/:productId" element={<ProductsDetails />} />
       </Route>
 
       <Route element={<ProtectedRoutes allowedRoles={["Admin"]} />}>
