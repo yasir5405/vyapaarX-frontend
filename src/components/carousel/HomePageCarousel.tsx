@@ -32,12 +32,12 @@ const HomePageCarousel = () => {
 
   useEffect(() => {
     resetTimer();
-    
+
     const handleVisibilityChange = () => {
       if (!document.hidden) {
         // Tab became visible - reset transition state
         isTransitioningRef.current = false;
-        
+
         // If we're on a clone slide, jump to the real slide
         if (index === 0) {
           setIsTransitioning(false);
@@ -46,18 +46,18 @@ const HomePageCarousel = () => {
           setIsTransitioning(false);
           setIndex(1);
         }
-        
+
         resetTimer();
       }
     };
-    
-    document.addEventListener('visibilitychange', handleVisibilityChange);
-    
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
     return () => {
       if (timerRef.current) {
         clearInterval(timerRef.current);
       }
-      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
     };
   }, [index, slides.length, extendedSlides.length]);
 
@@ -71,14 +71,14 @@ const HomePageCarousel = () => {
       setIsTransitioning(false);
       setIndex(slides.length);
     }
-    
+
     isTransitioningRef.current = false;
   };
   return (
-    <div className="w-full rounded-2xl border-2 h-96 relative overflow-hidden">
+    <div className="w-full rounded-md md:rounded-2xl border-0 md:border-2 h-64 md:h-96 relative overflow-hidden">
       {/* Slides */}
       <div
-        className={`flex h-full ${isTransitioning ? "transition-transform duration-700 ease-in-out" : ""} `}
+        className={`flex h-full w-full ${isTransitioning ? "transition-transform duration-700 ease-in-out" : ""} `}
         style={{ transform: `translateX(-${index * 100}%)` }}
         onTransitionEnd={handleTransitionEnd}
       >
@@ -100,9 +100,9 @@ const HomePageCarousel = () => {
           setIndex((prev) => prev - 1);
           resetTimer();
         }}
-        className="absolute left-4 top-1/2 -translate-y-1/2 rounded-full bg-white"
+        className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 rounded-full bg-white w-8 h-8 md:w-10 md:h-10"
       >
-        <ChevronLeft />
+        <ChevronLeft className="w-4 h-4 md:w-6 md:h-6" />
       </Button>
 
       <Button
@@ -115,20 +115,20 @@ const HomePageCarousel = () => {
           setIndex((prev) => prev + 1);
           resetTimer();
         }}
-        className="absolute right-4 top-1/2 -translate-y-1/2 rounded-full bg-white"
+        className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 rounded-full bg-white w-8 h-8 md:w-10 md:h-10"
       >
-        <ChevronRight />
+        <ChevronRight className="w-4 h-4 md:w-6 md:h-6" />
       </Button>
 
       {/* Dots */}
-      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 bg-white/50 rounded-full py-2 px-2">
+      <div className="absolute bottom-2 md:bottom-4 left-1/2 -translate-x-1/2 flex  gap-1.5 md:gap-2 bg-white/50 rounded-full py-1.5 px-1.5 md:py-2 md:px-2">
         {slides.map((_, idx) => {
           const realIndex = idx + 1;
-          const isActive = 
-            index === realIndex || 
-            (index === 0 && idx === slides.length - 1) || 
+          const isActive =
+            index === realIndex ||
+            (index === 0 && idx === slides.length - 1) ||
             (index === extendedSlides.length - 1 && idx === 0);
-          
+
           return (
             <Button
               size={"icon-xs"}
@@ -140,7 +140,7 @@ const HomePageCarousel = () => {
                 setIndex(realIndex);
                 resetTimer();
               }}
-              className={`h-2 w-2 rounded-full ${isActive ? "bg-primary" : "bg-white"}`}
+              className={`h-1.5 w-1.5 md:h-2 md:w-2 rounded-full ${isActive ? "bg-primary" : "bg-white"}`}
             />
           );
         })}

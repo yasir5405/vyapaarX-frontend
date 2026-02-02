@@ -36,7 +36,7 @@ const GlobalSearch = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(handleSearch)} className="w-lg">
+    <form onSubmit={handleSubmit(handleSearch)} className="w-lg hidden md:block">
       <InputGroup className="max-w-lg bg-muted">
         <InputGroupInput
           placeholder="Search products, brands and more"

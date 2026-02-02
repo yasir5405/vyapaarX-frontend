@@ -26,9 +26,9 @@ const NavBarActions = () => {
         <ButtonGroup orientation={"vertical"} key={idx}>
           <Button
             variant={"ghost"}
-            className="flex flex-col h-full text-xs font-semibold"
+            className="flex flex-col h-full text-xs font-semibold px-6 py-4 md:px-4 md:py-2"
           >
-            <button.icon /> {button.name}
+            <button.icon /> <p className="hidden md:block">{button.name}</p>
           </Button>
         </ButtonGroup>
       ))}

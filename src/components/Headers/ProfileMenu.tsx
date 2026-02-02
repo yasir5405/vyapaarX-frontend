@@ -21,10 +21,10 @@ const ProfileMenu = () => {
     >
       <Button
         variant={"ghost"}
-        className="flex flex-col text-xs font-semibold px-4 py-7"
+        className="flex flex-col text-xs font-semibold md:px-4 md:py-7"
       >
         <User className="h-5 w-5" />
-        Profile
+        <p className="hidden md:block">Profile</p>
       </Button>
 
       {/* Dropdown */}

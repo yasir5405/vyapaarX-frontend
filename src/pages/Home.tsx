@@ -35,7 +35,7 @@ const Home = () => {
       <div className="w-full py-4 flex flex-col gap-4 items-center mt-6">
         <h1 className="font-bold text-4xl">Top Products</h1>
 
-        <div className="w-full grid grid-cols-4 gap-4">
+        <div className="w-full grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-4">
           {products &&
             products
               .slice(0, 8)
