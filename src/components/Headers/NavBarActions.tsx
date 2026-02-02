@@ -1,6 +1,7 @@
-import { Heart, ShoppingCart, User, type LucideIcon } from "lucide-react";
+import { Heart, ShoppingCart, type LucideIcon } from "lucide-react";
 import { Button } from "../ui/button";
 import { ButtonGroup } from "../ui/button-group";
+import ProfileMenu from "./ProfileMenu";
 
 type NavBarActionsType = {
   name: string;
@@ -9,10 +10,6 @@ type NavBarActionsType = {
 
 const NavBarActions = () => {
   const buttons: NavBarActionsType[] = [
-    {
-      icon: User,
-      name: "Profile",
-    },
     {
       icon: Heart,
       name: "Wishlist",
@@ -24,6 +21,7 @@ const NavBarActions = () => {
   ];
   return (
     <div className="h-full flex items-center justify-center gap-1">
+      <ProfileMenu />
       {buttons.map((button, idx) => (
         <ButtonGroup orientation={"vertical"} key={idx}>
           <Button

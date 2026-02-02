@@ -3,7 +3,11 @@ import { toast } from "sonner";
 import { useAuth } from "@/context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
-const LogoutButton = () => {
+interface LogoutButtonProps {
+  type?: "link" | "button";
+}
+
+const LogoutButton = ({ type = "button" }: LogoutButtonProps) => {
   const { logout } = useAuth();
   const navigate = useNavigate();
 
@@ -18,7 +22,17 @@ const LogoutButton = () => {
       toast.error("Error while logging out. Please try again");
     }
   };
-  return <Button onClick={handleLogout}>Logout</Button>;
+  if (type === "button") {
+    return <Button onClick={handleLogout}>Logout</Button>;
+  }
+  return (
+    <p
+      className="text-sm text-muted-foreground hover:text-black cursor-pointer"
+      onClick={handleLogout}
+    >
+      Logout
+    </p>
+  );
 };
 
 export default LogoutButton;
