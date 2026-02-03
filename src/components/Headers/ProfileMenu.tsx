@@ -31,7 +31,7 @@ const ProfileMenu = () => {
       <div
         className={`absolute right-1/2 translate-x-1/2 top-full w-64 border bg-white shadow-lg flex flex-col gap-2 transition-all duration-200 ease-out z-50 ${open ? "opacity-100" : "opacity-0 pointer-events-none"} px-4 py-3`}
       >
-        <Link to={"/profile"}>
+        <div>
           {user ? (
             <p className="font-semibold text-sm flex">Welcome {user.name}</p>
           ) : (
@@ -47,16 +47,11 @@ const ProfileMenu = () => {
           )}
 
           {!user && (
-            <Button asChild variant={"outline"}>
-              <Link
-                to={"/login"}
-                className="mt-3 inline-block w-full rounded-md border px-3 py-2 text-center text-sm font-medium hover:border-primary text-primary hover:text-primary hover:bg-muted"
-              >
-                LOGIN/SIGNUP
-              </Link>
+            <Button asChild variant={"outline"} className="mt-3 w-full">
+              <Link to={"/login"}>LOGIN/SIGNUP</Link>
             </Button>
           )}
-        </Link>
+        </div>
 
         <Separator />
 
