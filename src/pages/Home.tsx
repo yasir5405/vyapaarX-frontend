@@ -29,13 +29,16 @@ const Home = () => {
     fetchProducts();
   }, [cursor, limit]);
   return (
-    <div className="h-dvh w-full">
+    <div className="w-full">
       <HomePageCarousel />
 
-      <div className="w-full py-4 flex flex-col gap-4 items-center mt-6">
-        <h1 className="font-bold text-4xl">Top Products</h1>
+      <div className="w-full py-4 flex flex-col gap-4 items-center mt-3">
+        <img
+          className="font-bold text-2xl md:text-4xl"
+          src="https://assets.myntassets.com/f_webp,w_980,c_limit,fl_progressive,dpr_2.0/assets/images/2026/JANUARY/30/nvEZ4rsQ_dd989122431e477a9f6cc2d1fe0f3e72.jpg"
+        />
 
-        <div className="w-full grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-4">
+        <div className="w-full max-w-8xl px-0 grid sm:grid-cols-2 grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-3 mt-3 md:gap-5">
           {products &&
             products
               .slice(0, 8)
