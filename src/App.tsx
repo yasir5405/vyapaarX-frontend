@@ -13,6 +13,9 @@ import AppLayout from "./layouts/AppLayout";
 import ProtectedRoutes from "./components/Protected/ProtectedRoutes";
 import GuestOnly from "./components/GuestOnly";
 import ProductsDetails from "./pages/ProductsDetails";
+import AdminLayout from "./layouts/AdminLayout";
+import AdminProducts from "./components/Admin/AdminProducts";
+import AdminDashboardHome from "./components/Admin/AdminDashboardHome";
 
 const App = () => {
   return (
@@ -38,8 +41,11 @@ const App = () => {
       </Route>
 
       <Route element={<ProtectedRoutes allowedRoles={["Admin"]} />}>
-        <Route element={<AppLayout />}>
-          <Route path="/admin" element={<Admin />} />
+        <Route element={<AdminLayout />}>
+          <Route path="/admin" element={<Admin />}>
+            <Route index element={<AdminDashboardHome />} />
+            <Route path="products" element={<AdminProducts />} />
+          </Route>
         </Route>
       </Route>
     </Routes>

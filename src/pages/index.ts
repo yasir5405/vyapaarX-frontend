@@ -5,7 +5,6 @@ import Unauthorized from "./Unauthorized";
 import Admin from "./Admin";
 import ForgotPassword from "./ForgotPassword";
 import ResetPassword from "./ResetPassword";
-
 export {
   Login,
   Register,
