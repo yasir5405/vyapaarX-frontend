@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button } from "../ui/button";
 import { User } from "lucide-react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Separator } from "../ui/separator";
 import { useAuth } from "@/context/AuthContext";
 import LogoutButton from "../LogoutButton";
@@ -12,8 +12,6 @@ const ProfileMenu = () => {
   const links = ["Orders", "Cart", "Contact us"];
 
   const { user } = useAuth();
-
-  const navigate = useNavigate();
 
   return (
     <div
@@ -33,7 +31,7 @@ const ProfileMenu = () => {
       <div
         className={`absolute right-1/2 translate-x-1/2 top-full w-64 border bg-white shadow-lg flex flex-col gap-2 transition-all duration-200 ease-out z-50 ${open ? "opacity-100" : "opacity-0 pointer-events-none"} px-4 py-3`}
       >
-        <div onClick={() => navigate("/profile")}>
+        <div>
           {user ? (
             <p className="font-semibold text-sm flex cursor-pointer">
               Welcome {user.name}

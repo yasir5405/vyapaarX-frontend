@@ -1,9 +1,9 @@
 import {
+  DollarSign,
   Home,
   Package,
   Receipt,
   Users,
-  Warehouse,
   type LucideIcon,
 } from "lucide-react";
 import {
@@ -31,7 +31,7 @@ const data: SidebarButtonProps[] = [
   { icon: Package, name: "Products", href: "/admin/products" },
   { icon: Receipt, name: "Orders", href: "/admin/orders" },
   { icon: Users, name: "Users", href: "/admin/users" },
-  { icon: Warehouse, name: "Inventory", href: "/admin/inventory" },
+  { icon: DollarSign, name: "Revenue", href: "/admin/revenue" },
 ];
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
