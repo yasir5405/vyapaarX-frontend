@@ -25,10 +25,10 @@ const Admin = () => {
               className="mr-2 data-[orientation=vertical]:h-4"
             />
 
-            <p>
+            <p className="font-semibold text-sm">
               {location.pathname === "/admin"
                 ? "Home"
-                : currentPage.toUpperCase()}
+                : currentPage.slice(0, 1).toUpperCase() + currentPage.slice(1)}
             </p>
           </div>
         </header>
