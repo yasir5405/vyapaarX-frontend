@@ -15,6 +15,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarRail,
+  useSidebar,
 } from "@/components/ui/sidebar";
 import { useAuth } from "@/context/AuthContext";
 import { useNavigate } from "react-router-dom";
@@ -37,6 +38,15 @@ const data: SidebarButtonProps[] = [
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { user } = useAuth();
   const navigate = useNavigate();
+  const { setOpenMobile, isMobile } = useSidebar();
+
+  const handleNavigation = (href: string) => {
+    navigate(href);
+    if (isMobile) {
+      setOpenMobile(false);
+    }
+  };
+
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
@@ -48,7 +58,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             src="/logo.png"
             alt="Logo"
             className="object-cover h-10 md:h-full w-8 md:w-10 cursor-pointer"
-            onClick={() => navigate("/admin")}
+            onClick={() => handleNavigation("/admin")}
           />
 
           <div className="grid flex-1 text-left text-sm leading-tight">
@@ -65,7 +75,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 size="lg"
                 className="group data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground group-data-[state=collapsed]:justify-center cursor-pointer"
                 tooltip={button.name}
-                onClick={() => navigate(button.href)}
+                onClick={() => handleNavigation(button.href)}
               >
                 <button.icon />
                 <span className="group-data-[state=collapsed]:hidden">
