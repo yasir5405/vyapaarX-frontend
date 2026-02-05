@@ -13,6 +13,7 @@ import {
 } from "../ui/table";
 import OrderTableSkeleton from "../Skeletons/OrderTableSkeleton";
 import AddProductForm from "../Forms/AddProductForm";
+import UpdateProductForm from "../Forms/UpdateProductForm";
 
 const productStatusStyles: Record<"true" | "false", string> = {
   true: "bg-green-100 text-green-800",
@@ -25,7 +26,9 @@ const AdminProducts = () => {
 
   const [cursor, setCursor] = useState<number | undefined>(undefined);
   const [nextCursor, setNextCursor] = useState<number | undefined>(undefined);
-  const [cursorHistory, setCursorHistory] = useState<(number | undefined)[]>([]);
+  const [cursorHistory, setCursorHistory] = useState<(number | undefined)[]>(
+    [],
+  );
   const [loading, setLoading] = useState(false);
 
   const [refreshKey, setRefreshKey] = useState(0);
@@ -114,7 +117,10 @@ const AdminProducts = () => {
                 </TableCell>
 
                 <TableCell className="text-right">
-                  <Button size={"xs"}>Update</Button>
+                  <UpdateProductForm
+                    product={product}
+                    onSuccess={() => setRefreshKey((k) => k + 1)}
+                  />
                 </TableCell>
               </TableRow>
             ))}

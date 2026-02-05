@@ -26,3 +26,5 @@ export const productValidationSchema = z.object({
     )
     .min(1, "At least one highlight is required"),
 });
+
+export const updateProductValidationSchema = productValidationSchema.partial();

@@ -28,6 +28,15 @@ export type AddProductParams = {
   highlights: string[];
 };
 
+export type UpdateProductParams = {
+  productId: number;
+  name?: string;
+  description?: string;
+  price?: number;
+  companyName?: string;
+  highlights?: string[];
+};
+
 export const getProducts = async ({
   cursor,
   limit,
@@ -100,6 +109,48 @@ export const addProduct = async (
 ): Promise<ApiResponse<Products>> => {
   try {
     const res = await api.post("/products", payload);
+    return res.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      return (
+        error.response?.data ?? {
+          data: null,
+          message: "Products fetch failed",
+          success: false,
+          error: {
+            message: "Server did not respond",
+          },
+        }
+      );
+    }
+
+    return {
+      data: null,
+      message: "Register failed",
+      success: false,
+      error: {
+        message: "Error fetching products. Please try again",
+      },
+    };
+  }
+};
+
+export const updateProduct = async ({
+  productId,
+  companyName,
+  description,
+  highlights,
+  name,
+  price,
+}: UpdateProductParams): Promise<ApiResponse<Products>> => {
+  try {
+    const res = await api.put(`/products/${productId}`, {
+      name,
+      companyName,
+      description,
+      highlights,
+      price,
+    });
     return res.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
