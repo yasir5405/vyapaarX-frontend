@@ -25,6 +25,7 @@ const AdminProducts = () => {
 
   const [cursor, setCursor] = useState<number | undefined>(undefined);
   const [nextCursor, setNextCursor] = useState<number | undefined>(undefined);
+  const [cursorHistory, setCursorHistory] = useState<(number | undefined)[]>([]);
   const [loading, setLoading] = useState(false);
 
   const [refreshKey, setRefreshKey] = useState(0);
@@ -119,18 +120,37 @@ const AdminProducts = () => {
             ))}
         </TableBody>
       </Table>
-      <div className="flex items-center justify-end gap-3 mt-4">
+      <div className="flex items-center justify-end gap-3">
         <Button
           variant="outline"
           disabled={!cursor || loading}
-          onClick={() => setCursor(undefined)}
+          onClick={() => {
+            setCursor(undefined);
+            setCursorHistory([]);
+          }}
         >
           First Page
         </Button>
 
         <Button
+          variant="outline"
+          disabled={cursorHistory.length === 0 || loading}
+          onClick={() => {
+            const newHistory = [...cursorHistory];
+            const previousCursor = newHistory.pop();
+            setCursorHistory(newHistory);
+            setCursor(previousCursor);
+          }}
+        >
+          Previous
+        </Button>
+
+        <Button
           disabled={!nextCursor || loading}
-          onClick={() => setCursor(nextCursor)}
+          onClick={() => {
+            setCursorHistory([...cursorHistory, cursor]);
+            setCursor(nextCursor);
+          }}
         >
           Next
         </Button>
