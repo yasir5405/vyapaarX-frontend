@@ -20,12 +20,24 @@ type getProductsParams = {
   cursor?: number;
 };
 
+export type AddProductParams = {
+  name: string;
+  description?: string;
+  price: number;
+  companyName: string;
+  highlights: string[];
+};
+
 export const getProducts = async ({
   cursor,
   limit,
 }: getProductsParams): Promise<PaginatedResponse<Products[]>> => {
   try {
-    const res = await api.get(`/products?limit=${limit}&cursor=${cursor}`);
+    const params = new URLSearchParams();
+    if (limit !== undefined) params.append("limit", limit.toString());
+    if (cursor !== undefined) params.append("cursor", cursor.toString());
+
+    const res = await api.get(`/products?${params.toString()}`);
     return res.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
@@ -57,6 +69,37 @@ export const getProduct = async (
 ): Promise<ApiResponse<Products>> => {
   try {
     const res = await api.get(`/products/${productId}`);
+    return res.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      return (
+        error.response?.data ?? {
+          data: null,
+          message: "Products fetch failed",
+          success: false,
+          error: {
+            message: "Server did not respond",
+          },
+        }
+      );
+    }
+
+    return {
+      data: null,
+      message: "Register failed",
+      success: false,
+      error: {
+        message: "Error fetching products. Please try again",
+      },
+    };
+  }
+};
+
+export const addProduct = async (
+  payload: AddProductParams,
+): Promise<ApiResponse<Products>> => {
+  try {
+    const res = await api.post("/products", payload);
     return res.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {

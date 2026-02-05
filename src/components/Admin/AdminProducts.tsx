@@ -1,9 +1,7 @@
 import { getProducts, type Products } from "@/api/product.api";
 import { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
 import { toast } from "sonner";
 import { Button } from "../ui/button";
-import { Plus } from "lucide-react";
 import {
   Table,
   TableBody,
@@ -14,6 +12,7 @@ import {
   TableRow,
 } from "../ui/table";
 import OrderTableSkeleton from "../Skeletons/OrderTableSkeleton";
+import AddProductForm from "../Forms/AddProductForm";
 
 const productStatusStyles: Record<"true" | "false", string> = {
   true: "bg-green-100 text-green-800",
@@ -21,31 +20,37 @@ const productStatusStyles: Record<"true" | "false", string> = {
 };
 
 const AdminProducts = () => {
+  const LIMIT = 10;
   const [products, setProducts] = useState<Products[] | null>(null);
-  const [searchParams] = useSearchParams();
 
-  const cursor = searchParams.get("cursor");
-  const limit = searchParams.get("limit");
+  const [cursor, setCursor] = useState<number | undefined>(undefined);
+  const [nextCursor, setNextCursor] = useState<number | undefined>(undefined);
+  const [loading, setLoading] = useState(false);
+
+  const [refreshKey, setRefreshKey] = useState(0);
+
   useEffect(() => {
     (async () => {
       try {
+        setLoading(true);
         const res = await getProducts({
-          cursor: Number(cursor),
-          limit: Number(limit),
+          limit: LIMIT,
+          cursor,
         });
 
         setProducts(res.data);
+        setNextCursor(res.nextCursor ?? undefined);
         console.log(res.data);
       } catch {
         toast.error("Error in fetching products");
+      } finally {
+        setLoading(false);
       }
     })();
-  }, [cursor, limit]);
+  }, [cursor, refreshKey]);
   return (
     <div className="w-full flex flex-col gap-7">
-      <Button className="self-end">
-        <Plus /> Add Product
-      </Button>
+      <AddProductForm onSuccess={() => setRefreshKey((k) => k + 1)} />
 
       <Table>
         <TableCaption>All products</TableCaption>
@@ -67,7 +72,7 @@ const AdminProducts = () => {
           {products?.length === 0 && (
             <TableRow>
               <TableCell
-                colSpan={4}
+                colSpan={6}
                 className="text-center py-6 text-muted-foreground"
               >
                 No products found
@@ -114,6 +119,22 @@ const AdminProducts = () => {
             ))}
         </TableBody>
       </Table>
+      <div className="flex items-center justify-end gap-3 mt-4">
+        <Button
+          variant="outline"
+          disabled={!cursor || loading}
+          onClick={() => setCursor(undefined)}
+        >
+          First Page
+        </Button>
+
+        <Button
+          disabled={!nextCursor || loading}
+          onClick={() => setCursor(nextCursor)}
+        >
+          Next
+        </Button>
+      </div>
     </div>
   );
 };

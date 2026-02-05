@@ -128,6 +128,15 @@ const MobileNav = () => {
                     </Link>
                   </SheetClose>
 
+                  <SheetClose asChild>
+                    <Link
+                      to="/admin"
+                      className="text-sm text-muted-foreground hover:text-black"
+                    >
+                      Admin Hashboard
+                    </Link>
+                  </SheetClose>
+
                   <LogoutButton type="button" />
                 </div>
               </>
