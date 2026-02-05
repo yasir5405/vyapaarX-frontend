@@ -13,7 +13,7 @@ const ProductCard = (props: Products) => {
       {/* Image */}
       <div className="w-full aspect-square overflow-hidden rounded-md bg-muted">
         <img
-          src={props.image ?? ""}
+          src={props.image ?? "/no-image.png"}
           alt={props.name}
           className="w-full h-full object-cover object-center"
         />

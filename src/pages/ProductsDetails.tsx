@@ -32,7 +32,7 @@ const ProductsDetails = () => {
       <BreadCrumbs productName={product?.name} />
       <div className="flex flex-col md:flex-row w-full py-4 gap-4 md:gap-0">
         <img
-          src={product?.image ?? ""}
+          src={product?.image ?? "/no-image.png"}
           alt={product?.name}
           className="w-full md:w-[58%] h-96 md:h-150 object-cover object-center rounded-lg md:rounded-none"
         />

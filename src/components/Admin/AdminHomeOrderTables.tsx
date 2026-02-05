@@ -31,9 +31,11 @@ const AdminHomeOrderTables = () => {
         if (res.success && res.data?.orders) {
           setOrders(res.data?.orders);
         } else {
+          setOrders([]);
           toast.error(res.error?.message ?? res.message);
         }
       } catch {
+        setOrders([]);
         console.log("Error while fetching orders");
       }
     };
