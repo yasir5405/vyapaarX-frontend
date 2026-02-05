@@ -1,4 +1,3 @@
-import { Plus } from "lucide-react";
 import { Button } from "../ui/button";
 import {
   Dialog,
@@ -46,7 +45,10 @@ const UpdateProductForm = ({
       companyName: product.companyName,
       description: product.description || "",
       price: product.price,
-      highlights: product.highlights.join(", ") as unknown as (string | undefined)[],
+      highlights: product.highlights.join(", ") as unknown as (
+        | string
+        | undefined
+      )[],
     },
   });
 
@@ -60,7 +62,10 @@ const UpdateProductForm = ({
         description: product.description || "",
         price: product.price,
         companyName: product.companyName,
-        highlights: product.highlights.join(", ") as unknown as (string | undefined)[],
+        highlights: product.highlights.join(", ") as unknown as (
+          | string
+          | undefined
+        )[],
       });
     }
   }, [open, product, reset]);
@@ -127,8 +132,8 @@ const UpdateProductForm = ({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button type="button" className="self-end">
-          <Plus /> Add Product
+        <Button variant={"outline"} type="button" className="self-end">
+          Update Product
         </Button>
       </DialogTrigger>
 

@@ -16,6 +16,7 @@ import ProductsDetails from "./pages/ProductsDetails";
 import AdminLayout from "./layouts/AdminLayout";
 import AdminProducts from "./components/Admin/AdminProducts";
 import AdminDashboardHome from "./components/Admin/AdminDashboardHome";
+import UserCart from "./pages/Cart";
 
 const App = () => {
   return (
@@ -32,6 +33,7 @@ const App = () => {
       <Route element={<ProtectedRoutes />}>
         <Route element={<AppLayout />}>
           <Route path="/unauthorized" element={<Unauthorized />} />
+          <Route path="/cart" element={<UserCart />} />
         </Route>
       </Route>
 

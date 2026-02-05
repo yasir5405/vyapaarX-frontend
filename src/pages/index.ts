@@ -5,6 +5,7 @@ import Unauthorized from "./Unauthorized";
 import Admin from "./Admin";
 import ForgotPassword from "./ForgotPassword";
 import ResetPassword from "./ResetPassword";
+import Cart from "./Cart";
 export {
   Login,
   Register,
@@ -13,4 +14,5 @@ export {
   Admin,
   ForgotPassword,
   ResetPassword,
+  Cart,
 };

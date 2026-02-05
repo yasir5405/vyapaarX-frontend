@@ -17,6 +17,19 @@ export type LoginSuccessData = {
   accessToken: string;
 };
 
+export type Address = {
+  createdAt: Date;
+  updatedAt: Date;
+  id: number;
+  userId: number;
+  addressLine: string;
+  city: string;
+  state: string;
+  postalCode: string;
+  country: string;
+  isDefault: boolean;
+};
+
 export type User = {
   name: string;
   email: string;
@@ -24,6 +37,7 @@ export type User = {
   createdAt: Date;
   updatedAt: Date;
   id: number;
+  addresses?: Address[];
 };
 
 export type ResetPasswordParams = {

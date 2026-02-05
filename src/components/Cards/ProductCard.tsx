@@ -2,9 +2,34 @@ import type { Products } from "@/api/product.api";
 import { Button } from "../ui/button";
 import { Plus } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { addToCart } from "@/api/cart.api";
+import { toast } from "sonner";
+import { useState } from "react";
+import { Spinner } from "../ui/spinner";
 
 const ProductCard = (props: Products) => {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+
+  const handleAddToCart = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    try {
+      e.stopPropagation();
+      setLoading(true);
+
+      const res = await addToCart({ productId: props.id, quantity: 1 });
+
+      if (!res.success) {
+        toast.error(res.error?.message ?? res.message);
+        return;
+      }
+
+      toast.success(res.message);
+    } catch {
+      toast.error("Error adding item to your cart.");
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <div
       onClick={() => navigate(`/products/${props.id}`)}
@@ -24,8 +49,13 @@ const ProductCard = (props: Products) => {
           {props.companyName}
         </h1>
 
-        <Button size={"icon-xs"} className="rounded-full shrink-0">
-          <Plus />
+        <Button
+          size={"icon-xs"}
+          className="rounded-full shrink-0"
+          onClick={handleAddToCart}
+          disabled={loading}
+        >
+          {loading ? <Spinner /> : <Plus />}
         </Button>
       </div>
 
