@@ -6,14 +6,21 @@ import { addToCart } from "@/api/cart.api";
 import { toast } from "sonner";
 import { useState } from "react";
 import { Spinner } from "../ui/spinner";
+import { useAuth } from "@/context/AuthContext";
 
 const ProductCard = (props: Products) => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
+  const { user } = useAuth();
+
   const handleAddToCart = async (e: React.MouseEvent<HTMLButtonElement>) => {
     try {
       e.stopPropagation();
+      if (!user) {
+        toast.error("Please login to add items to cart");
+        return;
+      }
       setLoading(true);
 
       const res = await addToCart({ productId: props.id, quantity: 1 });

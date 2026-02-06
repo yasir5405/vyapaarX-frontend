@@ -32,7 +32,7 @@ const ChooseAddressForm = () => {
         </Button>
       </DialogTrigger>
 
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="sm:max-w-lg">
         <DialogHeader>
           <DialogTitle>Select Delivery Address</DialogTitle>
         </DialogHeader>

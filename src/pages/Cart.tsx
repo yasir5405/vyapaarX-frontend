@@ -1,21 +1,26 @@
 import { clearCart, getCart, type Cart } from "@/api/cart.api";
+import { createOrder } from "@/api/order.api";
 import CartItemCard from "@/components/Cards/CartItemCard";
 import ClearCartButton from "@/components/ClearCartButton";
 import EmptyCart from "@/components/Empty/EmptyCart";
 import ChooseAddressForm from "@/components/Forms/ChooseAddressForm";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
 import { Spinner } from "@/components/ui/spinner";
 import { useAddress } from "@/context/AddressContext";
 
 import { useAuth } from "@/context/AuthContext";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { toast } from "sonner";
 
 const UserCart = () => {
   const { user } = useAuth();
-  const { selectedAddress } = useAddress();
+  const { selectedAddress, selectedAddressId } = useAddress();
   const [cart, setCart] = useState<Cart | null>(null);
   const [loading, setLoading] = useState(false);
   const [initialLoading, setInitialLoading] = useState(true);
+  const [orderLoading, setOrderLoading] = useState(false);
 
   const fetchCart = async () => {
     try {
@@ -51,6 +56,36 @@ const UserCart = () => {
     fetchCart();
   }, []);
 
+  console.log(cart?.cartItems);
+
+  const totalPrice = cart?.cartItems.reduce((acc, curr) => {
+    return acc + curr.price * curr.quantity;
+  }, 0);
+
+  const PLATFORM_FEE = 23;
+
+  const totalAmount = totalPrice! + PLATFORM_FEE;
+
+  const handleCreateOrder = async (addressId: number) => {
+    try {
+      setOrderLoading(true);
+      const res = await createOrder({ addressId });
+
+      if (!res.success) {
+        toast.error(res.error?.message ?? res.message);
+        return;
+      }
+
+      toast.success("Order successfully placed.");
+      fetchCart();
+    } catch {
+      toast.error("Error placing order. Please try again.");
+      return;
+    } finally {
+      setOrderLoading(false);
+    }
+  };
+
   return (
     <>
       {loading && (
@@ -60,7 +95,7 @@ const UserCart = () => {
           </div>
         </div>
       )}
-      <div className="w-full h-full flex flex-col lg:flex-row items-start justify-center gap-3 px-4 lg:px-0">
+      <div className="w-full h-full flex flex-col lg:flex-row items-start justify-center gap-5 px-4 lg:px-0">
         {/* Left Div */}
         <div className="w-full lg:w-[36%] py-5 flex flex-col gap-4">
           {/* User info and address*/}
@@ -120,7 +155,59 @@ const UserCart = () => {
         </div>
 
         {/* Right Div */}
-        <div className="w-full lg:w-[30%] border-2 border-sky-600 hidden lg:block"></div>
+        <div className="w-full lg:w-[30%] border flex flex-col pt-4 px-4 pb-10 gap-4">
+          <h1 className="font-semibold text-xs uppercase text-neutral-500">
+            Price Details{" "}
+            <span className="capitalize">({cart?.cartItems.length} items)</span>
+          </h1>
+
+          <div className="flex flex-col gap-2 w-full">
+            <div className="w-full flex items-center justify-between">
+              <h1 className="text-sm capitalize">Total MRP</h1>
+              <h1 className="text-sm">{`₹${totalPrice?.toLocaleString("en-IN")}`}</h1>
+            </div>
+
+            <div className="w-full flex items-center justify-between">
+              <h1 className="text-sm capitalize">Platform fee</h1>
+              <h1 className="text-sm">{`₹${PLATFORM_FEE?.toLocaleString("en-IN")}`}</h1>
+            </div>
+
+            <Separator />
+            <div className="w-full flex items-center justify-between">
+              <h1 className="text-sm font-semibold capitalize">Total amount</h1>
+              <h1 className="text-sm font-semibold">{`₹${totalAmount?.toLocaleString("en-IN")}`}</h1>
+            </div>
+
+            <div className="w-full flex items-center gap-1">
+              <p className="text-xs">
+                By placing the order, you agree to VyapaarX's{" "}
+                <Link className="text-xs font-semibold text-primary" to={"#"}>
+                  Terms of use
+                </Link>{" "}
+                and{" "}
+                <Link className="text-xs font-semibold text-primary" to={"#"}>
+                  Privacy Policy
+                </Link>
+              </p>
+            </div>
+
+            {/* Place Order button */}
+            <Button
+              className="uppercase font-semibold"
+              onClick={() => handleCreateOrder(Number(selectedAddressId))}
+              disabled={cart?.cartItems.length === 0 || orderLoading}
+            >
+              {orderLoading ? (
+                <div className="flex items-center gap-2">
+                  <Spinner />
+                  Placing order...
+                </div>
+              ) : (
+                <>Place Order</>
+              )}
+            </Button>
+          </div>
+        </div>
       </div>
     </>
   );
