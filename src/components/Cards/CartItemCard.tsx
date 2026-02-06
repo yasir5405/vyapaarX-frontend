@@ -44,10 +44,9 @@ const CartItemCard = ({
   return (
     <>
       {loading && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm">
-          <div className="flex flex-col items-center gap-2">
-            <Spinner />
-            <p className="text-sm text-white">Deleting item...</p>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20 backdrop-blur-sm">
+          <div className="border border-muted-foreground p-1 rounded-full shadow-md">
+            <Spinner stroke="#ff7e5f" />
           </div>
         </div>
       )}
@@ -134,10 +133,9 @@ const QuantityChanger = ({
     <>
       {/* Full Screen Overlay */}
       {loading && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm">
-          <div className="flex flex-col items-center gap-2">
-            <Spinner />
-            <p className="text-sm text-white">Updating cart...</p>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20 backdrop-blur-sm">
+          <div className="border border-muted-foreground p-1 rounded-full shadow-md">
+            <Spinner stroke="#ff7e5f" />
           </div>
         </div>
       )}
