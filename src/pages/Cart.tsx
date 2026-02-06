@@ -1,6 +1,7 @@
 import { clearCart, getCart, type Cart } from "@/api/cart.api";
 import { createOrder } from "@/api/order.api";
 import CartItemCard from "@/components/Cards/CartItemCard";
+import PlatformFeeInfo from "@/components/Cards/PlatformFeeInfo";
 import ClearCartButton from "@/components/ClearCartButton";
 import EmptyCart from "@/components/Empty/EmptyCart";
 import ChooseAddressForm from "@/components/Forms/ChooseAddressForm";
@@ -103,7 +104,7 @@ const UserCart = () => {
         {/* Left Div */}
         <div className="w-full lg:w-[36%] py-5 flex flex-col gap-4">
           {/* User info and address*/}
-          <div className="flex flex-col sm:flex-row items-start sm:items-center w-full justify-between py-4 px-3 border rounded-sm gap-3">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center w-full justify-between py-4 px-3 border rounded-sm gap-3 bg-muted">
             <div className="flex w-full flex-col">
               <p className="text-[13px] gap-1 flex flex-wrap text-muted-foreground w-full">
                 Deliver to:{" "}
@@ -172,7 +173,9 @@ const UserCart = () => {
             </div>
 
             <div className="w-full flex items-center justify-between">
-              <h1 className="text-sm capitalize">Platform fee</h1>
+              <h1 className="text-sm capitalize flex gap-2 items-center">
+                Platform fee <PlatformFeeInfo />
+              </h1>
               <h1 className="text-sm">{`₹${PLATFORM_FEE?.toLocaleString("en-IN")}`}</h1>
             </div>
 
