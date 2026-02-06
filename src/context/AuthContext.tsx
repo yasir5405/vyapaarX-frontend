@@ -29,7 +29,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     } else {
       setUser(null);
       localStorage.removeItem("access-token");
-      localStorage.removeItem("access-token");
+      localStorage.removeItem("selectedAddressId");
 
       if (!silent) {
         toast.error(res.error?.message ?? res.message ?? "Session expired");
@@ -48,6 +48,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     await logoutUser();
     setUser(null);
     localStorage.removeItem("access-token");
+    localStorage.removeItem("selectedAddressId");
   };
 
   return (

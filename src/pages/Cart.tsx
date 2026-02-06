@@ -15,14 +15,19 @@ const UserCart = () => {
   const { selectedAddress } = useAddress();
   const [cart, setCart] = useState<Cart | null>(null);
   const [loading, setLoading] = useState(false);
+  const [initialLoading, setInitialLoading] = useState(true);
 
   const fetchCart = async () => {
-    const res = await getCart();
-    if (!res.success) {
-      toast.error(res.error?.message ?? res.message);
-      return;
+    try {
+      const res = await getCart();
+      if (!res.success) {
+        toast.error(res.error?.message ?? res.message);
+        return;
+      }
+      setCart(res.data);
+    } finally {
+      setInitialLoading(false);
     }
-    setCart(res.data);
   };
 
   const handleClearCart = async () => {
@@ -72,7 +77,7 @@ const UserCart = () => {
               <p className="text-[13px] flex text-muted-foreground w-full">
                 {selectedAddress
                   ? `${selectedAddress.addressLine}, ${selectedAddress.city}, ${selectedAddress.state}`
-                  : "No address found"}
+                  : "No address selected"}
               </p>
             </div>
 
@@ -92,15 +97,21 @@ const UserCart = () => {
 
           {/* All products of cart */}
           <div className="w-full flex flex-col gap-3">
-            {!cart && (
-              <p className="text-center text-sm text-muted-foreground">
-                Loading cart...
-              </p>
+            {initialLoading && (
+              <div className="flex items-center justify-center py-8">
+                <Spinner />
+                <p className="ml-2 text-sm text-muted-foreground">
+                  Loading cart...
+                </p>
+              </div>
             )}
 
-            {cart && cart.cartItems.length === 0 && <EmptyCart />}
+            {!initialLoading && (!cart || cart.cartItems.length === 0) && (
+              <EmptyCart />
+            )}
 
-            {cart &&
+            {!initialLoading &&
+              cart &&
               cart.cartItems.length > 0 &&
               cart.cartItems.map((item) => (
                 <CartItemCard key={item.id} item={item} onSuccess={fetchCart} />

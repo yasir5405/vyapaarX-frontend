@@ -54,3 +54,6 @@ export const addAddressValidationSchema = z.object({
     .min(2, { error: "Country must be at least 2 characters long" })
     .max(100, { error: "Country should be less than 100 characters long" }),
 });
+
+export const updateAddressValidationSchema =
+  addAddressValidationSchema.partial();

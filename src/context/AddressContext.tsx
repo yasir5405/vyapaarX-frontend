@@ -23,14 +23,18 @@ export const AddressProvider = ({
 
   // Initialize from localStorage or default address when user loads
   useEffect(() => {
+    if (!user) {
+      setSelectedAddressId(null);
+      return;
+    }
     if (user?.addresses && selectedAddressId === null) {
       // Try to get from localStorage first
       const storedAddressId = localStorage.getItem("selectedAddressId");
-      
+
       // Check if stored address still exists in user's addresses
       if (storedAddressId) {
         const addressExists = user.addresses.find(
-          (a) => String(a.id) === storedAddressId
+          (a) => String(a.id) === storedAddressId,
         );
         if (addressExists) {
           setSelectedAddressId(storedAddressId);
