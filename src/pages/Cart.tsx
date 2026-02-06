@@ -68,6 +68,10 @@ const UserCart = () => {
 
   const handleCreateOrder = async (addressId: number) => {
     try {
+      if (!selectedAddressId) {
+        toast.error("Please select an address before placing the order.");
+        return;
+      }
       setOrderLoading(true);
       const res = await createOrder({ addressId });
 
