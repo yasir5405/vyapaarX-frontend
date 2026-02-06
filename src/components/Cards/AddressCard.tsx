@@ -45,7 +45,7 @@ const AddressCard = ({
       }
 
       toast.success(res.message);
-      refreshUser();
+      await refreshUser();
     } catch {
       toast.error("Error setting default address. Please try again");
       return;

@@ -91,7 +91,7 @@ const UpdateAddressForm = ({ address }: { address: Address }) => {
       }
 
       toast.success("Address was updated successfully");
-      refreshUser();
+      await refreshUser();
       setOpen(false);
       reset();
     } catch {

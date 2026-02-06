@@ -83,7 +83,7 @@ const AddAddressForm = () => {
       }
 
       toast.success("Address was added successfully");
-      refreshUser();
+      await refreshUser();
       setOpen(false);
       reset();
     } catch {
