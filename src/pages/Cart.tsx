@@ -2,8 +2,9 @@ import { clearCart, getCart, type Cart } from "@/api/cart.api";
 import CartItemCard from "@/components/Cards/CartItemCard";
 import ClearCartButton from "@/components/ClearCartButton";
 import EmptyCart from "@/components/Empty/EmptyCart";
-import { Button } from "@/components/ui/button";
+import ChooseAddressForm from "@/components/Forms/ChooseAddressForm";
 import { Spinner } from "@/components/ui/spinner";
+import { useAddress } from "@/context/AddressContext";
 
 import { useAuth } from "@/context/AuthContext";
 import { useEffect, useState } from "react";
@@ -11,6 +12,7 @@ import { toast } from "sonner";
 
 const UserCart = () => {
   const { user } = useAuth();
+  const { selectedAddress } = useAddress();
   const [cart, setCart] = useState<Cart | null>(null);
   const [loading, setLoading] = useState(false);
 
@@ -63,25 +65,18 @@ const UserCart = () => {
                 Deliver to:{" "}
                 <span className="font-semibold text-black flex items-center justify-center gap-2">
                   {user?.name} ,{" "}
-                  {user?.addresses && user.addresses.length > 0 && (
-                    <>{user.addresses[0].postalCode}</>
-                  )}
+                  {selectedAddress && <>{selectedAddress.postalCode}</>}
                 </span>{" "}
               </p>
 
               <p className="text-[13px] flex text-muted-foreground w-full">
-                {user?.addresses && user.addresses.length > 0
-                  ? `${user.addresses[0].addressLine}, ${user.addresses[0].city}, ${user.addresses[0].state}`
+                {selectedAddress
+                  ? `${selectedAddress.addressLine}, ${selectedAddress.city}, ${selectedAddress.state}`
                   : "No address found"}
               </p>
             </div>
 
-            <Button
-              variant={"outline"}
-              className="hover:bg-transparent text-primary hover:text-primary border-2 w-full sm:w-auto whitespace-nowrap"
-            >
-              CHANGE ADDRESS
-            </Button>
+            <ChooseAddressForm />
           </div>
 
           <div className="flex items-center justify-between">

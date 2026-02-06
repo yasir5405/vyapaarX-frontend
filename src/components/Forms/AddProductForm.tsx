@@ -108,8 +108,8 @@ const AddProductForm = ({ onSuccess }: { onSuccess: () => void }) => {
           <DialogHeader>
             <DialogTitle>Add product</DialogTitle>
             <DialogDescription>
-              This action cannot be undone. This will permanently delete your
-              account and remove your data from our servers.
+              Add the product details. Verify each detail before adding a new
+              product.
             </DialogDescription>
           </DialogHeader>
 
