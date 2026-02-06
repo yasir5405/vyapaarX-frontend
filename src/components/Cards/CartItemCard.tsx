@@ -13,6 +13,7 @@ import { ChevronDown, X } from "lucide-react";
 import { toast } from "sonner";
 import { useState } from "react";
 import { Spinner } from "../ui/spinner";
+import { Link } from "react-router-dom";
 
 const CartItemCard = ({
   item,
@@ -64,9 +65,12 @@ const CartItemCard = ({
         />
 
         <div className="flex flex-col flex-1">
-          <p className="font-semibold text-sm md:text-base pr-8">
+          <Link
+            to={`/products/${product.id}`}
+            className="font-semibold text-sm md:text-base pr-8"
+          >
             {product.name}
-          </p>
+          </Link>
           <p className="line-clamp-2 sm:line-clamp-1 text-xs sm:text-sm text-muted-foreground mt-1">
             {product.description}
           </p>
