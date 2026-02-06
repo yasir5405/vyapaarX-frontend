@@ -62,8 +62,13 @@ const AddressCard = ({
         toast.error("Error deleting address. Please try again");
         return;
       }
+
+      if (String(addressId) === selectedAddressId) {
+        setSelectedAddressId("");
+        localStorage.removeItem("selectedAddressId");
+      }
       toast.success(res.message);
-      refreshUser();
+      await refreshUser();
     } catch {
       toast.error("Error deleting address. Please try again");
       return;

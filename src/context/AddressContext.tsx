@@ -25,9 +25,18 @@ export const AddressProvider = ({
   useEffect(() => {
     if (!user) {
       setSelectedAddressId(null);
+      localStorage.removeItem("selectedAddressId");
       return;
     }
-    if (user?.addresses && selectedAddressId === null) {
+
+    if (!user.addresses || user.addresses.length === 0) {
+      setSelectedAddressId(null);
+      localStorage.removeItem("selectedAddressId");
+      return;
+    }
+
+    // Only set address if none is currently selected
+    if (selectedAddressId === null) {
       // Try to get from localStorage first
       const storedAddressId = localStorage.getItem("selectedAddressId");
 
@@ -46,14 +55,33 @@ export const AddressProvider = ({
       const defaultAddress = user.addresses.find((a) => a.isDefault);
       if (defaultAddress) {
         setSelectedAddressId(String(defaultAddress.id));
+        localStorage.setItem("selectedAddressId", String(defaultAddress.id));
+      }
+    } else {
+      // Validate that currently selected address still exists
+      const addressExists = user.addresses.find(
+        (a) => String(a.id) === selectedAddressId,
+      );
+      if (!addressExists) {
+        // Selected address was deleted, find new default
+        const defaultAddress = user.addresses.find((a) => a.isDefault);
+        if (defaultAddress) {
+          setSelectedAddressId(String(defaultAddress.id));
+          localStorage.setItem("selectedAddressId", String(defaultAddress.id));
+        } else {
+          setSelectedAddressId(null);
+          localStorage.removeItem("selectedAddressId");
+        }
       }
     }
-  }, [user, selectedAddressId]);
+  }, [user, selectedAddressId]); // Remove user?.addresses from dependencies
 
   // Save to localStorage whenever address changes
   useEffect(() => {
-    if (selectedAddressId) {
+    if (selectedAddressId && selectedAddressId !== "") {
       localStorage.setItem("selectedAddressId", selectedAddressId);
+    } else {
+      localStorage.removeItem("selectedAddressId");
     }
   }, [selectedAddressId]);
 
