@@ -89,7 +89,7 @@ api.interceptors.response.use(
     isRefreshing = true;
 
     try {
-      const res = await api.get("/auth/refresh-token");
+      const res = await api.post("/auth/refresh-token");
       const newToken = res.data.data.accessToken;
 
       localStorage.setItem("access-token", newToken);

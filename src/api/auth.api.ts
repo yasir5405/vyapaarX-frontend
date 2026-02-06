@@ -142,7 +142,7 @@ export const getMe = async (): Promise<ApiResponse<User>> => {
 
 export const logoutUser = async (): Promise<ApiResponse<null>> => {
   try {
-    const res = await api.get("/auth/logout");
+    const res = await api.post("/auth/logout");
     return res.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
