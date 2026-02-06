@@ -1,6 +1,9 @@
-import { getCart, type Cart } from "@/api/cart.api";
+import { clearCart, getCart, type Cart } from "@/api/cart.api";
 import CartItemCard from "@/components/Cards/CartItemCard";
+import ClearCartButton from "@/components/ClearCartButton";
+import EmptyCart from "@/components/Empty/EmptyCart";
 import { Button } from "@/components/ui/button";
+
 import { useAuth } from "@/context/AuthContext";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -8,28 +11,38 @@ import { toast } from "sonner";
 const UserCart = () => {
   const { user } = useAuth();
   const [cart, setCart] = useState<Cart | null>(null);
-  const [refreshKey, setRefreshKey] = useState(0);
+
+  const fetchCart = async () => {
+    const res = await getCart();
+    if (!res.success) {
+      toast.error(res.error?.message ?? res.message);
+      return;
+    }
+    setCart(res.data);
+  };
+
+  const handleClearCart = async () => {
+    const res = await clearCart();
+    if (!res.success) {
+      toast.error(res.error?.message ?? res.message);
+      return;
+    }
+    toast.success(res.message);
+    fetchCart();
+  };
 
   useEffect(() => {
-    (async () => {
-      const res = await getCart();
-      if (!res.success) {
-        toast.error(res.error?.message ?? res.message);
-        return;
-      }
-      setCart(res.data);
-      console.log(res.data?.cartItems);
-    })();
-  }, [refreshKey]);
+    fetchCart();
+  }, []);
 
   return (
-    <div className="w-full h-full flex items-center justify-center gap-3">
+    <div className="w-full h-full flex flex-col lg:flex-row items-start justify-center gap-3 px-4 lg:px-0">
       {/* Left Div */}
-      <div className="w-[36%] py-5 flex flex-col gap-4">
+      <div className="w-full lg:w-[36%] py-5 flex flex-col gap-4">
         {/* User info and address*/}
-        <div className="flex items-center w-full justify-between py-4 px-3 border rounded-sm">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center w-full justify-between py-4 px-3 border rounded-sm gap-3">
           <div className="flex w-full flex-col">
-            <p className="text-[13px] gap-1 flex text-muted-foreground w-full">
+            <p className="text-[13px] gap-1 flex flex-wrap text-muted-foreground w-full">
               Deliver to:{" "}
               <span className="font-semibold text-black flex items-center justify-center gap-2">
                 {user?.name} ,{" "}
@@ -48,20 +61,21 @@ const UserCart = () => {
 
           <Button
             variant={"outline"}
-            className="hover:bg-transparent text-primary hover:text-primary border-2"
+            className="hover:bg-transparent text-primary hover:text-primary border-2 w-full sm:w-auto whitespace-nowrap"
           >
             CHANGE ADDRESS
           </Button>
         </div>
 
         <div className="flex items-center justify-between">
-          <h1 className="font-bold text-base">
+          <h1 className="font-bold text-sm sm:text-base">
             {cart?.cartItems.length} ITEMS in CART
           </h1>
 
-          <Button variant={"secondary"} className="font-semibold">
-            Clear Cart 🛒
-          </Button>
+          <ClearCartButton
+            count={cart?.cartItems.length}
+            handleClearCart={handleClearCart}
+          />
         </div>
 
         {/* All products of cart */}
@@ -72,26 +86,18 @@ const UserCart = () => {
             </p>
           )}
 
-          {cart && cart.cartItems.length === 0 && (
-            <p className="text-center text-sm text-muted-foreground">
-              Your cart is empty 🛒
-            </p>
-          )}
+          {cart && cart.cartItems.length === 0 && <EmptyCart />}
 
           {cart &&
             cart.cartItems.length > 0 &&
             cart.cartItems.map((item) => (
-              <CartItemCard
-                key={item.id}
-                item={item}
-                onSuccess={() => setRefreshKey((k) => k + 1)}
-              />
+              <CartItemCard key={item.id} item={item} onSuccess={fetchCart} />
             ))}
         </div>
       </div>
 
       {/* Right Div */}
-      <div className="w-[30%] border-2 border-sky-600"></div>
+      <div className="w-full lg:w-[30%] border-2 border-sky-600 hidden lg:block"></div>
     </div>
   );
 };

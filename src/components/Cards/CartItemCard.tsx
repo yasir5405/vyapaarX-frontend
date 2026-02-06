@@ -1,4 +1,4 @@
-import { updateCart, type CartItem } from "@/api/cart.api";
+import { deleteCartItem, updateCart, type CartItem } from "@/api/cart.api";
 import {
   Sheet,
   SheetClose,
@@ -22,44 +22,78 @@ const CartItemCard = ({
   onSuccess: () => void;
 }) => {
   const { price, product, quantity } = item;
+
+  const [loading, setLoading] = useState(false);
+
+  const handleDeleteItemFromCart = async (productId: number) => {
+    try {
+      setLoading(true);
+      const res = await deleteCartItem({ productId });
+      if (!res.success) {
+        toast.error(res.error?.message ?? res.message);
+        return;
+      }
+      toast.success(res.message);
+      onSuccess();
+    } catch {
+      toast.error("Error removing item. Please try again");
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
-    <div className="w-full py-3 px-2 border flex gap-3 relative">
-      <X className="size-4.5 absolute top-2 right-2 cursor-pointer" />
-      <img
-        src={product.image ?? "/no-image.png"}
-        className="w-36 h-36 object-cover border"
-      />
+    <>
+      {loading && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm">
+          <div className="flex flex-col items-center gap-2">
+            <Spinner />
+            <p className="text-sm text-white">Deleting item...</p>
+          </div>
+        </div>
+      )}
+      <div className="w-full py-3 px-2 border flex flex-col sm:flex-row gap-3 relative">
+        <Button
+          variant={"link"}
+          className="absolute top-2 right-2 z-10"
+          onClick={() => handleDeleteItemFromCart(product.id)}
+        >
+          <X className="size-4.5" />
+        </Button>
+        <img
+          src={product.image ?? "/no-image.png"}
+          className="w-full sm:w-28 md:w-36 h-40 sm:h-28 md:h-36 object-cover border"
+        />
 
-      <div className="flex flex-col">
-        <p className="font-semibold text-sm">{product.name}</p>
-        <p className="line-clamp-1 max-w-62.5 text-sm text-muted-foreground mt-1">
-          {product.description}
-        </p>
-        <p className="line-clamp-1 text-xs text-neutral-400 font-extralight">
-          Sold by: {product.companyName}
-        </p>
+        <div className="flex flex-col flex-1">
+          <p className="font-semibold text-sm md:text-base pr-8">{product.name}</p>
+          <p className="line-clamp-2 sm:line-clamp-1 text-xs sm:text-sm text-muted-foreground mt-1">
+            {product.description}
+          </p>
+          <p className="line-clamp-1 text-xs text-neutral-400 font-extralight">
+            Sold by: {product.companyName}
+          </p>
 
-        <p className="mt-2">
-          <QuantityChanger
-            productId={product.id}
-            quantity={quantity}
-            onSuccess={onSuccess}
-          />
-        </p>
+          <p className="mt-2">
+            <QuantityChanger
+              productId={product.id}
+              quantity={quantity}
+              onSuccess={onSuccess}
+            />
+          </p>
 
-        <p className="text-sm text-foreground mt-1 font-semibold">₹{price}</p>
+          <p className="text-sm text-foreground mt-1 font-semibold">₹{price.toLocaleString("en-IN")}</p>
 
-        <p className="text-sm mt-1 text-neutral-400">
-          Added to cart on:{" "}
-          {new Date(item.createdAt).toLocaleDateString("en-IN", {
-            day: "numeric",
-            month: "long",
-            year: "numeric",
-            hour: "numeric",
-          })}
-        </p>
+          <p className="text-xs sm:text-sm mt-1 text-neutral-400">
+            Added to cart on:{" "}
+            {new Date(item.createdAt).toLocaleDateString("en-IN", {
+              day: "numeric",
+              month: "short",
+              year: "numeric",
+            })}
+          </p>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
@@ -108,28 +142,28 @@ const QuantityChanger = ({
           <Button
             variant={"outline"}
             size={"sm"}
-            className="font-semibold text-sm"
+            className="font-semibold text-xs sm:text-sm"
             disabled={loading}
           >
             Qty: {quantity}
-            <ChevronDown />
+            <ChevronDown className="w-3 h-3 sm:w-4 sm:h-4" />
           </Button>
         </SheetTrigger>
 
-        <SheetContent side="bottom">
+        <SheetContent side="bottom" className="px-4 sm:px-6">
           <SheetHeader>
-            <SheetTitle>Select Quantity</SheetTitle>
+            <SheetTitle className="text-base sm:text-lg">Select Quantity</SheetTitle>
             <SheetDescription></SheetDescription>
           </SheetHeader>
 
-          <SheetClose asChild className="pb-7">
-            <div className="flex items-center justify-center gap-4">
+          <SheetClose asChild className="pb-7 pt-4">
+            <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 md:gap-4 max-w-md mx-auto">
               {Array.from({ length: 10 }).map((_, idx) => {
                 const value = idx + 1;
                 return (
                   <div
                     key={idx}
-                    className={`border h-12 w-12 flex items-center justify-center rounded-full cursor-pointer ${quantity === idx + 1 ? "border-primary" : "border-black"}`}
+                    className={`border h-10 w-10 sm:h-11 sm:w-11 md:h-12 md:w-12 flex items-center justify-center rounded-full cursor-pointer text-sm sm:text-base transition-colors hover:bg-muted ${quantity === idx + 1 ? "border-primary border-2 bg-primary/5 font-semibold" : "border-border"}`}
                     onClick={() => handleUpdateCart(value)}
                   >
                     {idx + 1}
