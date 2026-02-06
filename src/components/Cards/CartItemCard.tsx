@@ -65,7 +65,9 @@ const CartItemCard = ({
         />
 
         <div className="flex flex-col flex-1">
-          <p className="font-semibold text-sm md:text-base pr-8">{product.name}</p>
+          <p className="font-semibold text-sm md:text-base pr-8">
+            {product.name}
+          </p>
           <p className="line-clamp-2 sm:line-clamp-1 text-xs sm:text-sm text-muted-foreground mt-1">
             {product.description}
           </p>
@@ -81,7 +83,9 @@ const CartItemCard = ({
             />
           </p>
 
-          <p className="text-sm text-foreground mt-1 font-semibold">₹{price.toLocaleString("en-IN")}</p>
+          <p className="text-sm text-foreground mt-1 font-semibold">
+            ₹{price * quantity}
+          </p>
 
           <p className="text-xs sm:text-sm mt-1 text-neutral-400">
             Added to cart on:{" "}
@@ -152,7 +156,9 @@ const QuantityChanger = ({
 
         <SheetContent side="bottom" className="px-4 sm:px-6">
           <SheetHeader>
-            <SheetTitle className="text-base sm:text-lg">Select Quantity</SheetTitle>
+            <SheetTitle className="text-base sm:text-lg">
+              Select Quantity
+            </SheetTitle>
             <SheetDescription></SheetDescription>
           </SheetHeader>
 
