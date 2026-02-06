@@ -25,6 +25,7 @@ const UserCart = () => {
 
   const handleClearCart = async () => {
     try {
+      setLoading(true);
       const res = await clearCart();
       if (!res.success) {
         toast.error(res.error?.message ?? res.message);
