@@ -9,7 +9,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "../ui/dialog";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import {
   updateProduct,
   type Products,
@@ -24,6 +24,13 @@ import { Textarea } from "../ui/textarea";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { Spinner } from "../ui/spinner";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
 
 const UpdateProductForm = ({
   onSuccess,
@@ -38,6 +45,7 @@ const UpdateProductForm = ({
     handleSubmit,
     setError,
     reset,
+    control,
   } = useForm<Omit<UpdateProductParams, "productId">>({
     resolver: zodResolver(updateProductValidationSchema),
     defaultValues: {
@@ -49,6 +57,7 @@ const UpdateProductForm = ({
         | string
         | undefined
       )[],
+      isActive: product.isActive ?? true,
     },
   });
 
@@ -66,6 +75,7 @@ const UpdateProductForm = ({
           | string
           | undefined
         )[],
+        isActive: product.isActive ?? true,
       });
     }
   }, [open, product, reset]);
@@ -104,6 +114,11 @@ const UpdateProductForm = ({
           });
         } else if (message.toLowerCase().includes("highlights")) {
           setError("highlights", {
+            type: "server",
+            message,
+          });
+        } else if (message.toLowerCase().includes("isActive")) {
+          setError("isActive", {
             type: "server",
             message,
           });
@@ -150,7 +165,7 @@ const UpdateProductForm = ({
             </DialogDescription>
           </DialogHeader>
 
-          <FieldGroup>
+          <FieldGroup className="mt-2">
             <Field>
               <Label htmlFor="name">Name</Label>
               <Input id="name" {...register("name")} />
@@ -195,6 +210,32 @@ const UpdateProductForm = ({
               {errors.companyName && (
                 <p className="text-xs text-red-600 mt-1">
                   {errors.companyName.message}
+                </p>
+              )}
+            </Field>
+            <Field>
+              <Label htmlFor="isActive">Product Status</Label>
+              <Controller
+                name="isActive"
+                control={control}
+                render={({ field }) => (
+                  <Select
+                    onValueChange={(value) => field.onChange(value === "true")}
+                    value={field.value?.toString()}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select status" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="true">Active</SelectItem>
+                      <SelectItem value="false">Inactive</SelectItem>
+                    </SelectContent>
+                  </Select>
+                )}
+              />
+              {errors.isActive && (
+                <p className="text-xs text-red-600 mt-1">
+                  {errors.isActive.message}
                 </p>
               )}
             </Field>

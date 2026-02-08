@@ -18,7 +18,7 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { useAuth } from "@/context/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { NavUser } from "./nav-user";
 
 interface SidebarButtonProps {
@@ -28,7 +28,7 @@ interface SidebarButtonProps {
 }
 
 const data: SidebarButtonProps[] = [
-  { icon: Home, name: "Home", href: "" },
+  { icon: Home, name: "Home", href: "/admin" },
   { icon: Package, name: "Products", href: "/admin/products" },
   { icon: Receipt, name: "Orders", href: "/admin/orders" },
   { icon: Users, name: "Users", href: "/admin/users" },
@@ -38,6 +38,7 @@ const data: SidebarButtonProps[] = [
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { user } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
   const { setOpenMobile, isMobile } = useSidebar();
 
   const handleNavigation = (href: string) => {
@@ -69,21 +70,27 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarHeader>
       <SidebarContent>
         <SidebarMenu className="p-2">
-          {data.map((button, idx) => (
-            <SidebarMenuItem key={idx}>
-              <SidebarMenuButton
-                size="lg"
-                className="group data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground group-data-[state=collapsed]:justify-center cursor-pointer"
-                tooltip={button.name}
-                onClick={() => handleNavigation(button.href)}
-              >
-                <button.icon />
-                <span className="group-data-[state=collapsed]:hidden">
-                  {button.name}
-                </span>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          ))}
+          {data.map((button, idx) => {
+            const isActive = location.pathname === button.href;
+            
+            return (
+              <SidebarMenuItem key={idx}>
+                <SidebarMenuButton
+                  size="lg"
+                  className={`group data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground group-data-[state=collapsed]:justify-center cursor-pointer ${
+                    isActive ? "bg-sidebar-accent text-sidebar-accent-foreground" : ""
+                  }`}
+                  tooltip={button.name}
+                  onClick={() => handleNavigation(button.href)}
+                >
+                  <button.icon />
+                  <span className="group-data-[state=collapsed]:hidden">
+                    {button.name}
+                  </span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            );
+          })}
         </SidebarMenu>
       </SidebarContent>
       <SidebarFooter>

@@ -77,7 +77,7 @@ export function ForgotPasswordForm({
               <div className="flex size-8 items-center justify-center rounded-md">
                 <GalleryVerticalEnd className="size-6" />
               </div>
-              <span className="sr-only">VyapaarX</span>
+              <span className="sr-only">Memora</span>
             </Link>
             <h1 className="text-xl font-bold">Reset your password.</h1>
             <FieldDescription>

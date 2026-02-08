@@ -35,6 +35,7 @@ export type UpdateProductParams = {
   price?: number;
   companyName?: string;
   highlights?: string[];
+  isActive?: boolean;
 };
 
 export const getProducts = async ({
@@ -142,6 +143,7 @@ export const updateProduct = async ({
   highlights,
   name,
   price,
+  isActive,
 }: UpdateProductParams): Promise<ApiResponse<Products>> => {
   try {
     const res = await api.put(`/products/${productId}`, {
@@ -150,6 +152,7 @@ export const updateProduct = async ({
       description,
       highlights,
       price,
+      isActive,
     });
     return res.data;
   } catch (error) {

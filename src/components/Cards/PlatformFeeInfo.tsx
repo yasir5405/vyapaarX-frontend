@@ -20,7 +20,7 @@ const PlatformFeeInfo = () => {
           <DialogDescription>
             <h1>
               {" "}
-              Fee levied by VyapaarX to sustain the efficient operations and
+              Fee levied by Memora to sustain the efficient operations and
               continous improvement of the platform, for a hassle-free app
               experience{" "}
             </h1>

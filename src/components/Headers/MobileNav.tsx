@@ -34,7 +34,7 @@ const MobileNav = () => {
                 className="text-xl font-bold flex items-center gap-2  cursor-pointer"
                 onClick={() => navigate("/")}
               >
-                VyapaarX{" "}
+                Memora{" "}
                 <img
                   src="/logo.png"
                   alt=""

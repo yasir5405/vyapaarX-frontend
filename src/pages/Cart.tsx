@@ -255,7 +255,7 @@ const UserCart = () => {
 
             <div className="w-full flex items-center gap-1">
               <p className="text-xs">
-                By placing the order, you agree to VyapaarX's{" "}
+                By placing the order, you agree to Memora's{" "}
                 <Link className="text-xs font-semibold text-primary" to={"#"}>
                   Terms of use
                 </Link>{" "}
