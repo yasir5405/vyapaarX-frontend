@@ -24,6 +24,13 @@ export type Order = {
   };
 };
 
+export type CreatedOrderResponse = {
+  orderId: number;
+  razorpayOrderId: string;
+  amount: number | string;
+  currency: string;
+};
+
 export type OrderResponse = {
   orders: Order[];
   totalOrders: number;
@@ -64,7 +71,7 @@ export const getAllOrders = async (): Promise<ApiResponse<OrderResponse>> => {
 
 export const createOrder = async (
   payload: CreateOrderParams,
-): Promise<ApiResponse<Order>> => {
+): Promise<ApiResponse<CreatedOrderResponse>> => {
   try {
     const res = await api.post("/orders", payload);
     return res.data;
@@ -73,7 +80,7 @@ export const createOrder = async (
       return (
         error.response?.data ?? {
           data: null,
-          message: "Products fetch failed",
+          message: "Order creation failed",
           success: false,
           error: {
             message: "Server did not respond",
@@ -84,10 +91,10 @@ export const createOrder = async (
 
     return {
       data: null,
-      message: "Register failed",
+      message: "Order creation failed",
       success: false,
       error: {
-        message: "Error fetching products. Please try again",
+        message: "Unknown error",
       },
     };
   }

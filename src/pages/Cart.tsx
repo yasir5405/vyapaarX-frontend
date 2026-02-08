@@ -1,3 +1,4 @@
+import api from "@/api/api";
 import { clearCart, getCart, type Cart } from "@/api/cart.api";
 import { createOrder } from "@/api/order.api";
 import CartItemCard from "@/components/Cards/CartItemCard";
@@ -11,6 +12,8 @@ import { Spinner } from "@/components/ui/spinner";
 import { useAddress } from "@/context/AddressContext";
 
 import { useAuth } from "@/context/AuthContext";
+import { loadRazorpay } from "@/lib/loadRazorpay";
+import { verifyPayment } from "@/services/payment";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
@@ -68,21 +71,86 @@ const UserCart = () => {
   const totalAmount = totalPrice! + PLATFORM_FEE;
 
   const handleCreateOrder = async (addressId: number) => {
+    if (!selectedAddressId) {
+      toast.error("Please select an address before placing the order.");
+      return;
+    }
     try {
-      if (!selectedAddressId) {
-        toast.error("Please select an address before placing the order.");
+      setOrderLoading(true);
+
+      const isLoaded = await loadRazorpay();
+      if (!isLoaded) {
+        toast.error("Razorpay SDK failed to load");
         return;
       }
-      setOrderLoading(true);
+
       const res = await createOrder({ addressId });
 
-      if (!res.success) {
+      if (!res.success || !res.data) {
         toast.error(res.error?.message ?? res.message);
         return;
       }
 
-      toast.success("Order successfully placed.");
-      fetchCart();
+      const { amount, currency, razorpayOrderId, orderId } = res.data;
+
+      const options = {
+        key: import.meta.env.VITE_RAZORPAY_KEY_ID,
+        amount,
+        currency,
+        order_id: razorpayOrderId,
+        name: "Memora",
+        description: "Order Payment",
+        handler: async (response: any) => {
+          try {
+            const verifyRes = await verifyPayment(response);
+            if (!verifyRes.success) {
+              toast.error(
+                verifyRes.error?.message ??
+                  verifyRes.message ??
+                  "Payment verification failed",
+              );
+              setOrderLoading(false);
+              return;
+            }
+            toast.success("Payment successful 🎉");
+            fetchCart();
+          } catch {
+            toast.error("Payment verification failed");
+          }
+        },
+        prefill: {
+          name: user?.name,
+          email: user?.email,
+        },
+        theme: {
+          color: "#111827",
+        },
+        modal: {
+          ondismiss: async () => {
+            try {
+              await api.patch(`/orders/${orderId}/cancel`);
+              toast.info("Payment cancelled");
+            } catch {
+              toast.error("Payment failed");
+            } finally {
+              setOrderLoading(false);
+            }
+          },
+        },
+      };
+
+      if (!razorpayOrderId || !amount) {
+        toast.error("Failed to initiate payment. Please retry.");
+        setOrderLoading(false);
+        return;
+      }
+
+      const razorpay = new (window as any).Razorpay(options);
+      razorpay.on("payment.failed", () => {
+        toast.error("Payment failed or cancelled");
+        setOrderLoading(false);
+      });
+      razorpay.open();
     } catch {
       toast.error("Error placing order. Please try again.");
       return;
