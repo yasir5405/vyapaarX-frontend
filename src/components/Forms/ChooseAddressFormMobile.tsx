@@ -1,11 +1,4 @@
 import { Button } from "../ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "../ui/dialog";
 import { Separator } from "../ui/separator";
 import { useAuth } from "@/context/AuthContext";
 import { RadioGroup } from "../ui/radio-group";
@@ -13,8 +6,16 @@ import AddressCard from "../Cards/AddressCard";
 import { useAddress } from "@/context/AddressContext";
 import { useState } from "react";
 import AddAddressForm from "./AddAddressForm";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "../ui/sheet";
 
-const ChooseAddressForm = () => {
+const ChooseAddressFormMobile = () => {
   const { user } = useAuth();
 
   const { selectedAddressId, setSelectedAddressId } = useAddress();
@@ -22,26 +23,27 @@ const ChooseAddressForm = () => {
   const [open, setOpen] = useState(false);
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild className="hidden md:block">
+    <Sheet open={open} onOpenChange={setOpen}>
+      <SheetTrigger asChild>
         <Button
           variant={"outline"}
-          className="hover:bg-transparent text-primary hover:text-primary border-2 w-full sm:w-auto whitespace-nowrap"
+          className="hover:bg-transparent block md:hidden text-primary hover:text-primary border-2 w-full sm:w-auto whitespace-nowrap "
         >
           CHANGE ADDRESS
         </Button>
-      </DialogTrigger>
+      </SheetTrigger>
 
-      <DialogContent className="sm:max-w-lg">
-        <DialogHeader>
-          <DialogTitle>Select Delivery Address</DialogTitle>
-        </DialogHeader>
+      <SheetContent side="bottom" className="overflow-x-hidden max-w-full">
+        <SheetHeader>
+          <SheetTitle>SELECT DELIVERY ADDRESS</SheetTitle>
+          <SheetDescription></SheetDescription>
+        </SheetHeader>
 
         <Separator />
 
         <div className="flex flex-col gap-2 max-h-[60vh] overflow-y-auto">
           {/* Add Adress button div */}
-          <div className="w-full flex items-center justify-between py-2">
+          <div className="w-full flex items-center justify-between py-2 px-3">
             <h1 className="uppercase text-sm font-semibold text-muted-foreground">
               Saved Address
             </h1>
@@ -49,10 +51,12 @@ const ChooseAddressForm = () => {
             <AddAddressForm />
           </div>
 
+          <Separator />
+
           {/* List of user added addresses */}
-          <div className="w-full">
+          <div className="w-full pl-0">
             <RadioGroup
-              className="w-full pr-7"
+              className="w-full"
               value={selectedAddressId ?? ""}
               onValueChange={(value) => {
                 setSelectedAddressId(value);
@@ -71,9 +75,9 @@ const ChooseAddressForm = () => {
             </RadioGroup>
           </div>
         </div>
-      </DialogContent>
-    </Dialog>
+      </SheetContent>
+    </Sheet>
   );
 };
 
-export default ChooseAddressForm;
+export default ChooseAddressFormMobile;

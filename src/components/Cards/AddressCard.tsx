@@ -78,9 +78,9 @@ const AddressCard = ({
   };
 
   return (
-    <div className="w-full p-3 flex flex-col cursor-pointer relative">
+    <div className="w-full p-3 pr-16 flex flex-col cursor-pointer relative box-border overflow-hidden">
       <Button
-        className="absolute top-2 right-0"
+        className="absolute top-2 right-2"
         size={"xs"}
         variant={"outline"}
         onClick={() => handleSetDefaultAddress(address.id)}
@@ -114,7 +114,7 @@ const AddressCard = ({
         ) : null}
       </div>
 
-      <div className="flex flex-col py-2 ml-7 text-sm w-full">
+      <div className="flex flex-col py-2 ml-7 text-sm max-w-full">
         <h1>{address.addressLine}</h1>
         <h1>{address.city}</h1>
         <h1>
@@ -122,7 +122,7 @@ const AddressCard = ({
         </h1>
       </div>
 
-      <div className="flex items-center justify-between ml-7 w-full">
+      <div className="flex items-center justify-between ml-7 max-w-full">
         <div className="flex items-center gap-4">
           <Button
             className="uppercase"

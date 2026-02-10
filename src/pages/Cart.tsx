@@ -6,6 +6,7 @@ import PlatformFeeInfo from "@/components/Cards/PlatformFeeInfo";
 import ClearCartButton from "@/components/ClearCartButton";
 import EmptyCart from "@/components/Empty/EmptyCart";
 import ChooseAddressForm from "@/components/Forms/ChooseAddressForm";
+import ChooseAddressFormMobile from "@/components/Forms/ChooseAddressFormMobile";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Spinner } from "@/components/ui/spinner";
@@ -27,7 +28,7 @@ const UserCart = () => {
   const [initialLoading, setInitialLoading] = useState(true);
   const [orderLoading, setOrderLoading] = useState(false);
 
-  const { refreshCart } = useCart();
+  const { refreshCart, count } = useCart();
 
   const fetchCart = async () => {
     try {
@@ -173,7 +174,7 @@ const UserCart = () => {
           </div>
         </div>
       )}
-      <div className="w-full h-full flex flex-col lg:flex-row items-start justify-center gap-5 px-4 lg:px-0">
+      <div className="relative w-full h-full flex flex-col lg:flex-row items-start justify-center gap-5 pb-30 md:pb-0">
         {/* Left Div */}
         <div className="w-full lg:w-[36%] py-5 flex flex-col gap-4">
           {/* User info and address*/}
@@ -195,11 +196,12 @@ const UserCart = () => {
             </div>
 
             <ChooseAddressForm />
+            <ChooseAddressFormMobile />
           </div>
 
           <div className="flex items-center justify-between">
             <h1 className="font-bold text-sm sm:text-base">
-              {cart?.cartItems.length} ITEMS in CART
+              {count} ITEMS in CART
             </h1>
 
             <ClearCartButton
@@ -233,7 +235,7 @@ const UserCart = () => {
         </div>
 
         {/* Right Div */}
-        <div className="w-full lg:w-[30%] border flex flex-col pt-4 px-4 pb-10 gap-4">
+        <div className="w-full lg:w-[30%] border hidden md:flex flex-col pt-4 px-4 pb-10 gap-4">
           <h1 className="font-semibold text-xs uppercase text-neutral-500">
             Price Details{" "}
             <span className="capitalize">({cart?.cartItems.length} items)</span>
@@ -276,6 +278,31 @@ const UserCart = () => {
               className="uppercase font-semibold"
               onClick={() => handleCreateOrder(Number(selectedAddressId))}
               disabled={cart?.cartItems.length === 0 || orderLoading}
+            >
+              {orderLoading ? (
+                <div className="flex items-center gap-2">
+                  <Spinner />
+                  Placing order...
+                </div>
+              ) : (
+                <>Place Order</>
+              )}
+            </Button>
+          </div>
+        </div>
+
+        <div className="flex flex-col border-2 shadow-lg bg-background md:hidden lg:hidden fixed left-0 bottom-0 pt-1.5 pb-3 w-full gap-2">
+          <h1 className="text-xs font-semibold text-center">
+            {count} items added for order
+          </h1>
+
+          {/* Place Order button */}
+          <div className="w-full p-2">
+            <Button
+              className="uppercase font-semibold w-full"
+              onClick={() => handleCreateOrder(Number(selectedAddressId))}
+              disabled={cart?.cartItems.length === 0 || orderLoading}
+              size={"lg"}
             >
               {orderLoading ? (
                 <div className="flex items-center gap-2">
