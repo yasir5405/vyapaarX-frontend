@@ -31,6 +31,7 @@ const UpdateAddressFormMobile = ({ address }: { address: Address }) => {
     setError,
   } = useForm<UpdateAddressParams>({
     resolver: zodResolver(updateAddressValidationSchema),
+    shouldFocusError: false,
     defaultValues: {
       addressLine: address.addressLine ?? "",
       city: address.city ?? "",
@@ -140,6 +141,7 @@ const UpdateAddressFormMobile = ({ address }: { address: Address }) => {
                 {...register("addressLine")}
                 placeholder="Address Line*"
                 className="text-sm placeholder:text-xs"
+                autoFocus={false}
               />
               {errors.addressLine && (
                 <p className="text-xs text-red-600 mt-1">
