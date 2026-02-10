@@ -12,6 +12,7 @@ import { Spinner } from "@/components/ui/spinner";
 import { useAddress } from "@/context/AddressContext";
 
 import { useAuth } from "@/context/AuthContext";
+import { useCart } from "@/context/CartContext";
 import { loadRazorpay } from "@/lib/loadRazorpay";
 import { verifyPayment } from "@/services/payment";
 import { useEffect, useState } from "react";
@@ -25,6 +26,8 @@ const UserCart = () => {
   const [loading, setLoading] = useState(false);
   const [initialLoading, setInitialLoading] = useState(true);
   const [orderLoading, setOrderLoading] = useState(false);
+
+  const { refreshCart } = useCart();
 
   const fetchCart = async () => {
     try {
@@ -49,6 +52,7 @@ const UserCart = () => {
       }
       toast.success(res.message);
       fetchCart();
+      refreshCart();
     } catch {
       toast.error("Error clearing cart");
     } finally {
@@ -114,6 +118,7 @@ const UserCart = () => {
             }
             toast.success("Payment successful 🎉");
             fetchCart();
+            refreshCart();
           } catch {
             toast.error("Payment verification failed");
           }

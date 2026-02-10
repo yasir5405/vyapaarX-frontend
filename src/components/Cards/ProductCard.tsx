@@ -7,12 +7,14 @@ import { toast } from "sonner";
 import { useState } from "react";
 import { Spinner } from "../ui/spinner";
 import { useAuth } from "@/context/AuthContext";
+import { useCart } from "@/context/CartContext";
 
 const ProductCard = (props: Products) => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
   const { user } = useAuth();
+  const { refreshCart } = useCart();
 
   const handleAddToCart = async (e: React.MouseEvent<HTMLButtonElement>) => {
     try {
@@ -31,6 +33,7 @@ const ProductCard = (props: Products) => {
       }
 
       toast.success(res.message);
+      refreshCart();
     } catch {
       toast.error("Error adding item to your cart.");
     } finally {

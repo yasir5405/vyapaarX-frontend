@@ -3,9 +3,7 @@ import { Button } from "../ui/button";
 import { ButtonGroup } from "../ui/button-group";
 import ProfileMenu from "./ProfileMenu";
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { getCart } from "@/api/cart.api";
-import { toast } from "sonner";
+import { useCart } from "@/context/CartContext";
 
 type NavBarActionsType = {
   name: string;
@@ -20,27 +18,9 @@ const NavBarActions = () => {
     },
   ];
 
-  const [count, setCount] = useState(0);
+  const { count } = useCart();
 
-  useEffect(() => {
-    const fetchCartCount = async () => {
-      try {
-        const res = await getCart();
-        if (res.success && res.data?.cartItems) {
-          const totalQuantity = res.data.cartItems.reduce(
-            (acc, item) => acc + item.quantity,
-            0,
-          );
-          setCount(totalQuantity);
-        }
-      } catch {
-        toast.error("Error fetching cart items count");
-      }
-    };
-
-    fetchCartCount();
-  }, []);
-
+  
   return (
     <div className="h-full flex items-center justify-center gap-1">
       <ProfileMenu />

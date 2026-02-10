@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Spinner } from "@/components/ui/spinner";
 import { useAuth } from "@/context/AuthContext";
+import { useCart } from "@/context/CartContext";
 import { FileText, Heart, ShoppingCart } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -18,6 +19,7 @@ const ProductsDetails = () => {
   const [loading, setLoading] = useState(false);
 
   const { user } = useAuth();
+  const { refreshCart } = useCart();
 
   const handleAddToCart = async (e: React.MouseEvent<HTMLButtonElement>) => {
     try {
@@ -36,6 +38,7 @@ const ProductsDetails = () => {
       }
 
       toast.success(res.message);
+      refreshCart();
     } catch {
       toast.error("Error adding item to your cart.");
     } finally {

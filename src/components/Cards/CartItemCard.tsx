@@ -14,6 +14,7 @@ import { toast } from "sonner";
 import { useState } from "react";
 import { Spinner } from "../ui/spinner";
 import { Link } from "react-router-dom";
+import { useCart } from "@/context/CartContext";
 
 const CartItemCard = ({
   item,
@@ -26,6 +27,8 @@ const CartItemCard = ({
 
   const [loading, setLoading] = useState(false);
 
+  const { refreshCart } = useCart();
+
   const handleDeleteItemFromCart = async (productId: number) => {
     try {
       setLoading(true);
@@ -36,6 +39,7 @@ const CartItemCard = ({
       }
       toast.success(res.message);
       onSuccess();
+      refreshCart();
     } catch {
       toast.error("Error removing item. Please try again");
     } finally {
@@ -116,6 +120,7 @@ const QuantityChanger = ({
   onSuccess: () => void;
 }) => {
   const [loading, setLoading] = useState(false);
+  const { refreshCart } = useCart();
   const handleUpdateCart = async (value: number) => {
     try {
       setLoading(true);
@@ -126,6 +131,7 @@ const QuantityChanger = ({
       }
       toast.success("Quantity updated successfully");
       onSuccess();
+      refreshCart();
     } catch {
       toast.error("Error while updating quantity");
     } finally {
