@@ -56,7 +56,7 @@ const ChooseAddressFormMobile = () => {
           <Separator />
 
           {/* List of user added addresses */}
-          <div className="w-full pl-0">
+          <div className="w-full pl-0 pb-4">
             <RadioGroup
               className="w-full"
               value={selectedAddressId ?? ""}
@@ -75,6 +75,8 @@ const ChooseAddressFormMobile = () => {
                   />
                 ))}
             </RadioGroup>
+
+            <AddAddressFormMobile type="button" />
           </div>
         </div>
       </SheetContent>

@@ -21,7 +21,7 @@ import {
   SheetTrigger,
 } from "../ui/sheet";
 
-const AddAddressFormMobile = () => {
+const AddAddressFormMobile = ({ type }: { type?: string }) => {
   const {
     register,
     formState: { errors },
@@ -96,13 +96,22 @@ const AddAddressFormMobile = () => {
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
-        <Button
-          className="flex md:hidden capitalize text-sm font-semibold"
-          variant={"link"}
-        >
-          <Plus className="size-3.5" />
-          Add new address
-        </Button>
+        {type === "button" ? (
+          <Button
+            className="flex md:hidden border mt-2 border-black text-sm w-[93%] font-semibold uppercase mx-auto"
+            variant={"outline"}
+          >
+            Add new address
+          </Button>
+        ) : (
+          <Button
+            className="flex md:hidden capitalize text-sm font-semibold"
+            variant={"link"}
+          >
+            <Plus className="size-3.5" />
+            Add new address
+          </Button>
+        )}
       </SheetTrigger>
 
       <SheetContent side="bottom" className="flex flex-col max-h-dvh z-9999">
