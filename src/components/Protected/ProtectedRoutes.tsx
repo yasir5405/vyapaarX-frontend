@@ -1,13 +1,13 @@
 import { useAuth } from "@/context/AuthContext";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
-import { Spinner } from "../ui/spinner";
+import GlobalLoader from "../GlobalLoader";
 
 const ProtectedRoutes = ({ allowedRoles }: { allowedRoles?: string[] }) => {
   const { loading, user } = useAuth();
   const location = useLocation();
 
   if (loading) {
-    return <Spinner />;
+    return <GlobalLoader />;
   }
 
   if (!user) {

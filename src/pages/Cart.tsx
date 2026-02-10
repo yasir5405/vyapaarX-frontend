@@ -7,6 +7,7 @@ import ClearCartButton from "@/components/ClearCartButton";
 import EmptyCart from "@/components/Empty/EmptyCart";
 import ChooseAddressForm from "@/components/Forms/ChooseAddressForm";
 import ChooseAddressFormMobile from "@/components/Forms/ChooseAddressFormMobile";
+import GlobalLoader from "@/components/GlobalLoader";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Spinner } from "@/components/ui/spinner";
@@ -167,13 +168,7 @@ const UserCart = () => {
 
   return (
     <>
-      {loading && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20 backdrop-blur-sm">
-          <div className="border border-muted-foreground p-1 rounded-full shadow-md">
-            <Spinner stroke="#ff7e5f" />
-          </div>
-        </div>
-      )}
+      {loading && <GlobalLoader />}
       <div className="relative w-full h-full flex flex-col lg:flex-row items-start justify-center gap-5 pb-30 md:pb-0">
         {/* Left Div */}
         <div className="w-full lg:w-[36%] py-5 flex flex-col gap-4">

@@ -1,12 +1,12 @@
 import { useAuth } from "@/context/AuthContext";
-import { Spinner } from "./ui/spinner";
 import { Navigate, Outlet } from "react-router-dom";
+import GlobalLoader from "./GlobalLoader";
 
 const GuestOnly = () => {
   const { user, loading } = useAuth();
 
   if (loading) {
-    return <Spinner />;
+    return <GlobalLoader />;
   }
 
   if (user) {
