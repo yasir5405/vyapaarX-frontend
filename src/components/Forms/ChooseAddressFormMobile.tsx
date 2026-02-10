@@ -14,6 +14,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "../ui/sheet";
+import AddAddressFormMobile from "./AddAddressFormMobile";
 
 const ChooseAddressFormMobile = () => {
   const { user } = useAuth();
@@ -43,12 +44,13 @@ const ChooseAddressFormMobile = () => {
 
         <div className="flex flex-col gap-2 max-h-[60vh] overflow-y-auto">
           {/* Add Adress button div */}
-          <div className="w-full flex items-center justify-between py-2 px-3">
+          <div className="w-full flex items-center justify-between py-2 pl-3 ">
             <h1 className="uppercase text-sm font-semibold text-muted-foreground">
               Saved Address
             </h1>
 
             <AddAddressForm />
+            <AddAddressFormMobile />
           </div>
 
           <Separator />

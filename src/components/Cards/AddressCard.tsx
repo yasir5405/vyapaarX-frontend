@@ -21,6 +21,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "../ui/alert-dialog";
+import UpdateAddressFormMobile from "../Forms/UpdateAddressFormMobile";
 
 const AddressCard = ({
   address,
@@ -136,6 +137,7 @@ const AddressCard = ({
           </Button>
 
           <UpdateAddressForm address={address} />
+          <UpdateAddressFormMobile address={address} />
         </div>
 
         {/* Delete Address button */}

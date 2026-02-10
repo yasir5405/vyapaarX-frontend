@@ -1,35 +1,43 @@
-import { useState } from "react";
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "../ui/dialog";
+import { useEffect, useState } from "react";
 import { Button } from "../ui/button";
-import { Plus } from "lucide-react";
 import { Field, FieldGroup } from "../ui/field";
 import { Input } from "../ui/input";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { addAddressValidationSchema } from "@/lib/schema";
-import { addAddress, type AddAddressParams } from "@/api/address.api";
-import { Separator } from "../ui/separator";
+import { updateAddressValidationSchema } from "@/lib/schema";
+import { updateAddress, type UpdateAddressParams } from "@/api/address.api";
 import { Spinner } from "../ui/spinner";
 import { toast } from "sonner";
 import { useAuth } from "@/context/AuthContext";
+import type { Address } from "@/api/auth.api";
+import { Label } from "../ui/label";
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "../ui/sheet";
 
-const AddAddressForm = () => {
+const UpdateAddressFormMobile = ({ address }: { address: Address }) => {
   const {
     register,
-    formState: { errors },
+    formState: { errors, isDirty },
     handleSubmit,
     reset,
     setError,
-  } = useForm<AddAddressParams>({
-    resolver: zodResolver(addAddressValidationSchema),
+  } = useForm<UpdateAddressParams>({
+    resolver: zodResolver(updateAddressValidationSchema),
+    defaultValues: {
+      addressLine: address.addressLine ?? "",
+      city: address.city ?? "",
+      country: address.country ?? "",
+      postalCode: address.postalCode ?? "",
+      state: address.postalCode ?? "",
+    },
   });
   const [open, setOpen] = useState(false);
 
@@ -37,10 +45,10 @@ const AddAddressForm = () => {
 
   const { refreshUser } = useAuth();
 
-  const handleAddAddress = async (data: AddAddressParams) => {
+  const handleUpdateAddress = async (data: UpdateAddressParams) => {
     try {
       setLoading(true);
-      const res = await addAddress(data);
+      const res = await updateAddress(data, address.id);
 
       if (!res.success) {
         const message = res.error?.message ?? res.message;
@@ -82,46 +90,56 @@ const AddAddressForm = () => {
         return;
       }
 
-      toast.success("Address was added successfully");
+      toast.success("Address was updated successfully");
       await refreshUser();
       setOpen(false);
       reset();
     } catch {
-      toast.error("Error adding address");
+      toast.error("Error updating address");
     } finally {
       setLoading(false);
     }
   };
 
+  useEffect(() => {
+    reset({
+      addressLine: address.addressLine ?? "",
+      city: address.city ?? "",
+      country: address.country ?? "",
+      postalCode: address.postalCode ?? "",
+      state: address.state ?? "",
+    });
+  }, [address, reset]);
+
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
+    <Sheet open={open} onOpenChange={setOpen}>
+      <SheetTrigger asChild className="flex md:hidden">
         <Button
-          className="hidden md:flex capitalize text-sm font-semibold"
-          variant={"link"}
+          className="uppercase hover:bg-transparent mr-1 md:mr-0"
+          variant={"outline"}
         >
-          <Plus className="size-3.5" />
-          Add new address
+          Edit
         </Button>
-      </DialogTrigger>
+      </SheetTrigger>
 
-      <DialogContent className="sm:max-w-xl max-h-[80dvh] overflow-y-auto z-200">
+      <SheetContent side="bottom" className="flex flex-col max-h-dvh z-9999">
+        <SheetHeader className="shrink-0">
+          <SheetTitle className="uppercase">Update address</SheetTitle>
+          <SheetDescription></SheetDescription>
+        </SheetHeader>
+
         <form
-          className="flex flex-col"
-          onSubmit={handleSubmit(handleAddAddress)}
+          className="flex flex-col px-2 pb-28 overflow-y-auto flex-1"
+          onSubmit={handleSubmit(handleUpdateAddress)}
         >
-          <DialogHeader>
-            <DialogTitle className="text-center">Add Address</DialogTitle>
-          </DialogHeader>
-
-          <Separator className="mt-3 mb-3" />
-
           <FieldGroup>
             <Field>
+              <Label htmlFor="addressLine">Street Address</Label>
               <Input
                 id="addressLine"
                 {...register("addressLine")}
                 placeholder="Address Line*"
+                className="text-sm placeholder:text-xs"
               />
               {errors.addressLine && (
                 <p className="text-xs text-red-600 mt-1">
@@ -130,10 +148,12 @@ const AddAddressForm = () => {
               )}
             </Field>
             <Field>
+              <Label htmlFor="postalCode">Pin Code</Label>
               <Input
                 id="postalCode"
                 {...register("postalCode")}
                 placeholder="Pin Code*"
+                className="text-sm placeholder:text-xs"
               />
               {errors.postalCode && (
                 <p className="text-xs text-red-600 mt-1">
@@ -142,7 +162,13 @@ const AddAddressForm = () => {
               )}
             </Field>
             <Field>
-              <Input id="city" {...register("city")} placeholder="City*" />
+              <Label htmlFor="city">City</Label>
+              <Input
+                id="city"
+                {...register("city")}
+                placeholder="City*"
+                className="text-sm placeholder:text-xs"
+              />
               {errors.city && (
                 <p className="text-xs text-red-600 mt-1">
                   {errors.city.message}
@@ -150,7 +176,13 @@ const AddAddressForm = () => {
               )}
             </Field>
             <Field>
-              <Input id="state" {...register("state")} placeholder="State*" />
+              <Label htmlFor="state">State</Label>
+              <Input
+                id="state"
+                {...register("state")}
+                placeholder="State*"
+                className="text-sm placeholder:text-xs"
+              />
               {errors.state && (
                 <p className="text-xs text-red-600 mt-1">
                   {errors.state.message}
@@ -158,10 +190,12 @@ const AddAddressForm = () => {
               )}
             </Field>
             <Field>
+              <Label htmlFor="country">Country</Label>
               <Input
                 id="country"
                 {...register("country")}
                 placeholder="Country*"
+                className="text-sm placeholder:text-xs"
               />
               {errors.country && (
                 <p className="text-xs text-red-600 mt-1">
@@ -171,26 +205,36 @@ const AddAddressForm = () => {
             </Field>
           </FieldGroup>
 
-          <DialogFooter className="mt-5">
-            <DialogClose asChild>
-              <Button disabled={loading} type="button" variant="outline">
+          <SheetFooter className="mt-5 flex flex-row fixed left-0 bottom-0 w-full bg-background border shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]">
+            <SheetClose asChild className="flex-1">
+              <Button
+                disabled={loading}
+                type="button"
+                variant="outline"
+                size={"lg"}
+              >
                 Cancel
               </Button>
-            </DialogClose>
-            <Button type="submit" disabled={loading}>
+            </SheetClose>
+            <Button
+              type="submit"
+              disabled={!isDirty || loading}
+              className="flex-1"
+              size={"lg"}
+            >
               {loading ? (
                 <div className="flex items-center justify-center gap-2">
-                  <Spinner /> Adding Address...
+                  <Spinner /> Updating Address...
                 </div>
               ) : (
-                <>Add Address</>
+                <>Update Address</>
               )}
             </Button>
-          </DialogFooter>
+          </SheetFooter>
         </form>
-      </DialogContent>
-    </Dialog>
+      </SheetContent>
+    </Sheet>
   );
 };
 
-export default AddAddressForm;
+export default UpdateAddressFormMobile;

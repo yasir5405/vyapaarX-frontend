@@ -291,7 +291,7 @@ const UserCart = () => {
           </div>
         </div>
 
-        <div className="flex flex-col border-2 shadow-lg bg-background md:hidden lg:hidden fixed left-0 bottom-0 pt-1.5 pb-3 w-full gap-2">
+        <div className="flex flex-col bg-background md:hidden lg:hidden fixed left-0 bottom-0 pt-1.5 pb-3 w-full gap-2 border shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]">
           <h1 className="text-xs font-semibold text-center">
             {count} items added for order
           </h1>

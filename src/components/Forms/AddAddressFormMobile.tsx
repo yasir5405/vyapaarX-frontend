@@ -1,13 +1,4 @@
 import { useState } from "react";
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "../ui/dialog";
 import { Button } from "../ui/button";
 import { Plus } from "lucide-react";
 import { Field, FieldGroup } from "../ui/field";
@@ -16,12 +7,21 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { addAddressValidationSchema } from "@/lib/schema";
 import { addAddress, type AddAddressParams } from "@/api/address.api";
-import { Separator } from "../ui/separator";
 import { Spinner } from "../ui/spinner";
 import { toast } from "sonner";
 import { useAuth } from "@/context/AuthContext";
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "../ui/sheet";
 
-const AddAddressForm = () => {
+const AddAddressFormMobile = () => {
   const {
     register,
     formState: { errors },
@@ -94,27 +94,28 @@ const AddAddressForm = () => {
   };
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
+    <Sheet open={open} onOpenChange={setOpen}>
+      <SheetTrigger asChild>
         <Button
-          className="hidden md:flex capitalize text-sm font-semibold"
+          className="flex md:hidden capitalize text-sm font-semibold"
           variant={"link"}
         >
           <Plus className="size-3.5" />
           Add new address
         </Button>
-      </DialogTrigger>
+      </SheetTrigger>
 
-      <DialogContent className="sm:max-w-xl max-h-[80dvh] overflow-y-auto z-200">
+      <SheetContent side="bottom" className="flex flex-col max-h-dvh z-9999">
+        <SheetHeader className="shrink-0">
+          <SheetTitle className="uppercase">Add new address</SheetTitle>
+          <SheetDescription></SheetDescription>
+        </SheetHeader>
+
         <form
-          className="flex flex-col"
+          className="flex flex-col px-2 pb-28 overflow-y-auto flex-1"
           onSubmit={handleSubmit(handleAddAddress)}
         >
-          <DialogHeader>
-            <DialogTitle className="text-center">Add Address</DialogTitle>
-          </DialogHeader>
-
-          <Separator className="mt-3 mb-3" />
+          {/* <Separator className="" /> */}
 
           <FieldGroup>
             <Field>
@@ -122,6 +123,7 @@ const AddAddressForm = () => {
                 id="addressLine"
                 {...register("addressLine")}
                 placeholder="Address Line*"
+                className="text-sm placeholder:text-xs"
               />
               {errors.addressLine && (
                 <p className="text-xs text-red-600 mt-1">
@@ -134,6 +136,7 @@ const AddAddressForm = () => {
                 id="postalCode"
                 {...register("postalCode")}
                 placeholder="Pin Code*"
+                className="text-sm placeholder:text-xs"
               />
               {errors.postalCode && (
                 <p className="text-xs text-red-600 mt-1">
@@ -142,7 +145,12 @@ const AddAddressForm = () => {
               )}
             </Field>
             <Field>
-              <Input id="city" {...register("city")} placeholder="City*" />
+              <Input
+                id="city"
+                {...register("city")}
+                placeholder="City*"
+                className="text-sm placeholder:text-xs"
+              />
               {errors.city && (
                 <p className="text-xs text-red-600 mt-1">
                   {errors.city.message}
@@ -150,7 +158,12 @@ const AddAddressForm = () => {
               )}
             </Field>
             <Field>
-              <Input id="state" {...register("state")} placeholder="State*" />
+              <Input
+                id="state"
+                {...register("state")}
+                placeholder="State*"
+                className="text-sm placeholder:text-xs"
+              />
               {errors.state && (
                 <p className="text-xs text-red-600 mt-1">
                   {errors.state.message}
@@ -162,6 +175,7 @@ const AddAddressForm = () => {
                 id="country"
                 {...register("country")}
                 placeholder="Country*"
+                className="text-sm placeholder:text-xs"
               />
               {errors.country && (
                 <p className="text-xs text-red-600 mt-1">
@@ -171,26 +185,36 @@ const AddAddressForm = () => {
             </Field>
           </FieldGroup>
 
-          <DialogFooter className="mt-5">
-            <DialogClose asChild>
-              <Button disabled={loading} type="button" variant="outline">
+          <SheetFooter className="mt-5 flex flex-row fixed left-0 bottom-0 w-full bg-background border shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]">
+            <SheetClose asChild className="flex-1">
+              <Button
+                disabled={loading}
+                type="button"
+                size={"lg"}
+                variant="outline"
+              >
                 Cancel
               </Button>
-            </DialogClose>
-            <Button type="submit" disabled={loading}>
+            </SheetClose>
+            <Button
+              type="submit"
+              disabled={loading}
+              className="flex-1"
+              size={"lg"}
+            >
               {loading ? (
-                <div className="flex items-center justify-center gap-2">
+                <div className="flex items-center justify-center gap-1">
                   <Spinner /> Adding Address...
                 </div>
               ) : (
                 <>Add Address</>
               )}
             </Button>
-          </DialogFooter>
+          </SheetFooter>
         </form>
-      </DialogContent>
-    </Dialog>
+      </SheetContent>
+    </Sheet>
   );
 };
 
-export default AddAddressForm;
+export default AddAddressFormMobile;

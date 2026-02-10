@@ -113,7 +113,7 @@ const UpdateAddressForm = ({ address }: { address: Address }) => {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
+      <DialogTrigger asChild className="hidden md:flex">
         <Button
           className="uppercase hover:bg-transparent mr-1 md:mr-0"
           variant={"outline"}
