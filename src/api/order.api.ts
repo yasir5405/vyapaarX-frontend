@@ -1,13 +1,25 @@
 import axios from "axios";
 import type { ApiResponse } from "./api";
 import api from "./api";
+import type { Products } from "./product.api";
+
+export type OrderItem = {
+  id: number;
+  createdAt: string;
+  productId: number;
+  quantity: number;
+  price: number;
+  orderId: number;
+  productName: string;
+  product: Products;
+};
 
 export type Order = {
-  addressId: number | null;
   id: number;
-  userId: number;
   createdAt: string;
   updatedAt: string;
+  userId: number;
+  addressId: number | null;
   addressSnapShot: {
     addressLine: string;
     city: string;
@@ -17,11 +29,10 @@ export type Order = {
   };
   totalAmount: number;
   status: "PENDING" | "PAID" | "SHIPPED" | "DELIVERED" | "CANCELLED";
-  user: {
-    id: number;
-    email: string;
-    name?: string | null;
-  };
+  razorpayOrderId: string | null;
+  razorpayPaymentId: string | null;
+  razorpaySignature: string | null;
+  orderItems: OrderItem[];
 };
 
 export type CreatedOrderResponse = {
@@ -95,6 +106,35 @@ export const createOrder = async (
       success: false,
       error: {
         message: "Unknown error",
+      },
+    };
+  }
+};
+
+export const getOrders = async (): Promise<ApiResponse<Order[]>> => {
+  try {
+    const res = await api.get(`/orders`);
+    return res.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      return (
+        error.response?.data ?? {
+          data: null,
+          message: "Products fetch failed",
+          success: false,
+          error: {
+            message: "Server did not respond",
+          },
+        }
+      );
+    }
+
+    return {
+      data: null,
+      message: "Register failed",
+      success: false,
+      error: {
+        message: "Error fetching products. Please try again",
       },
     };
   }

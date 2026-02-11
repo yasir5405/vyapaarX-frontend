@@ -1,5 +1,6 @@
 import { getCart } from "@/api/cart.api";
 import React, { createContext, useContext, useEffect, useState } from "react";
+import { useAuth } from "./AuthContext";
 
 type CartContextType = {
   count: number;
@@ -9,6 +10,7 @@ type CartContextType = {
 const CartContext = createContext<CartContextType | null>(null);
 
 export const CartProvider = ({ children }: { children: React.ReactNode }) => {
+  const { user } = useAuth();
   const [count, setCount] = useState(0);
 
   const refreshCart = async () => {
@@ -27,8 +29,13 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   useEffect(() => {
+    if (!user) {
+      setCount(0);
+      return;
+    }
+
     refreshCart();
-  }, []);
+  }, [user]);
 
   return (
     <CartContext.Provider value={{ count, refreshCart }}>

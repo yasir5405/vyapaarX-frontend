@@ -5,9 +5,10 @@ import { useNavigate } from "react-router-dom";
 
 interface LogoutButtonProps {
   type?: "link" | "button";
+  size?: "lg" | "sm" | "xs";
 }
 
-const LogoutButton = ({ type = "button" }: LogoutButtonProps) => {
+const LogoutButton = ({ type = "button", size }: LogoutButtonProps) => {
   const { logout } = useAuth();
   const navigate = useNavigate();
 
@@ -23,7 +24,11 @@ const LogoutButton = ({ type = "button" }: LogoutButtonProps) => {
     }
   };
   if (type === "button") {
-    return <Button onClick={handleLogout}>Logout</Button>;
+    return (
+      <Button size={size} onClick={handleLogout}>
+        Logout
+      </Button>
+    );
   }
   return (
     <p

@@ -104,8 +104,6 @@ api.interceptors.response.use(
 
       localStorage.removeItem("access-token");
 
-      window.location.href = "/login";
-
       return Promise.reject(refreshError);
     } finally {
       isRefreshing = false;

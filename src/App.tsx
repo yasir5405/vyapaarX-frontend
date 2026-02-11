@@ -8,6 +8,7 @@ import {
   Register,
   ResetPassword,
   Unauthorized,
+  UserDashboard,
 } from "./pages";
 import AppLayout from "./layouts/AppLayout";
 import ProtectedRoutes from "./components/Protected/ProtectedRoutes";
@@ -17,6 +18,8 @@ import AdminLayout from "./layouts/AdminLayout";
 import AdminProducts from "./components/Admin/AdminProducts";
 import AdminDashboardHome from "./components/Admin/AdminDashboardHome";
 import UserCart from "./pages/Cart";
+import UserDashboardHome from "./components/Dashboard/UserDashboardHome";
+import UserOrders from "./components/Dashboard/UserOrders";
 
 const App = () => {
   return (
@@ -40,6 +43,15 @@ const App = () => {
       <Route element={<AppLayout />}>
         <Route path="/" element={<Home />} />
         <Route path="/products/:productId" element={<ProductsDetails />} />
+      </Route>
+
+      <Route element={<ProtectedRoutes allowedRoles={["User", "Admin"]} />}>
+        <Route element={<AppLayout />}>
+          <Route path="/my" element={<UserDashboard />}>
+            <Route index element={<UserDashboardHome />} />
+            <Route path="orders" element={<UserOrders />} />
+          </Route>
+        </Route>
       </Route>
 
       <Route element={<ProtectedRoutes allowedRoles={["Admin"]} />}>

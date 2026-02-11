@@ -22,7 +22,7 @@ const Navbar = () => {
         {CATEGORIES.map((category: string, idx) => (
           <Link
             key={idx}
-            className="font-semibold text-xs relative after:content-[''] after:absolute after:left-1/2 after:-translate-x-1/2 after:top-11.5 after:hidden hover:after:block after:h-0.5 after:w-[160%] after:bg-primary hidden md:block"
+            className="font-semibold text-xs text-black relative after:content-[''] after:absolute after:left-1/2 after:-translate-x-1/2 after:top-11.5 after:hidden hover:after:block after:h-0.5 after:w-[160%] after:bg-primary hidden md:block"
             to={`/${category}`}
           >
             {category.toUpperCase()}

@@ -6,10 +6,19 @@ import { Separator } from "../ui/separator";
 import { useAuth } from "@/context/AuthContext";
 import LogoutButton from "../LogoutButton";
 
+type LinkType = {
+  name: string;
+  href: string;
+};
+
 const ProfileMenu = () => {
   const [open, setOpen] = useState(false);
 
-  const links = ["Orders", "Cart", "Contact us"];
+  const links: LinkType[] = [
+    { name: "Orders", href: "/my/orders" },
+    { name: "Cart", href: "/cart" },
+    { name: "Contact us", href: "/contact-us" },
+  ];
 
   const { user } = useAuth();
 
@@ -64,9 +73,9 @@ const ProfileMenu = () => {
             <Link
               className="text-sm text-muted-foreground hover:text-black"
               key={idx}
-              to={`/${link.toLowerCase()}`}
+              to={`${link.href.toLowerCase()}`}
             >
-              {link}
+              {link.name}
             </Link>
           ))}
         </div>

@@ -29,59 +29,30 @@ export const AddressProvider = ({
       return;
     }
 
-    if (!user.addresses || user.addresses.length === 0) {
+    if (!user.addresses?.length) {
       setSelectedAddressId(null);
       localStorage.removeItem("selectedAddressId");
       return;
     }
 
-    // Only set address if none is currently selected
-    if (selectedAddressId === null) {
-      // Try to get from localStorage first
-      const storedAddressId = localStorage.getItem("selectedAddressId");
-
-      // Check if stored address still exists in user's addresses
-      if (storedAddressId) {
-        const addressExists = user.addresses.find(
-          (a) => String(a.id) === storedAddressId,
-        );
-        if (addressExists) {
-          setSelectedAddressId(storedAddressId);
-          return;
-        }
-      }
-
-      // Fall back to default address
-      const defaultAddress = user.addresses.find((a) => a.isDefault);
-      if (defaultAddress) {
-        setSelectedAddressId(String(defaultAddress.id));
-        localStorage.setItem("selectedAddressId", String(defaultAddress.id));
-      }
-    } else {
-      // Validate that currently selected address still exists
-      const addressExists = user.addresses.find(
-        (a) => String(a.id) === selectedAddressId,
-      );
-      if (!addressExists) {
-        // Selected address was deleted, find new default
-        const defaultAddress = user.addresses.find((a) => a.isDefault);
-        if (defaultAddress) {
-          setSelectedAddressId(String(defaultAddress.id));
-          localStorage.setItem("selectedAddressId", String(defaultAddress.id));
-        } else {
-          setSelectedAddressId(null);
-          localStorage.removeItem("selectedAddressId");
-        }
-      }
+    const stored = localStorage.getItem("selectedAddressId");
+    if (stored && user.addresses.some((a) => String(a.id) === stored)) {
+      setSelectedAddressId(stored);
+      return;
     }
-  }, [user, selectedAddressId]); // Remove user?.addresses from dependencies
+
+    const def = user.addresses.find((a) => a.isDefault);
+    if (def) {
+      setSelectedAddressId(String(def.id));
+      localStorage.setItem("selectedAddressId", String(def.id));
+    }
+  }, [user]);
+  // Remove user?.addresses from dependencies
 
   // Save to localStorage whenever address changes
   useEffect(() => {
-    if (selectedAddressId && selectedAddressId !== "") {
+    if (selectedAddressId) {
       localStorage.setItem("selectedAddressId", selectedAddressId);
-    } else {
-      localStorage.removeItem("selectedAddressId");
     }
   }, [selectedAddressId]);
 

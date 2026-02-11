@@ -6,6 +6,7 @@ import Admin from "./Admin";
 import ForgotPassword from "./ForgotPassword";
 import ResetPassword from "./ResetPassword";
 import Cart from "./Cart";
+import UserDashboard from "./UserDashboard";
 export {
   Login,
   Register,
@@ -15,4 +16,5 @@ export {
   ForgotPassword,
   ResetPassword,
   Cart,
+  UserDashboard,
 };

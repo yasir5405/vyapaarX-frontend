@@ -73,7 +73,7 @@ const ProductCard = (props: Products) => {
         {props.name}
       </p>
 
-      <p className="text-sm md:text-base font-semibold">&#36;{props.price}</p>
+      <p className="text-sm md:text-base font-semibold">₹{props.price}</p>
     </div>
   );
 };
