@@ -88,7 +88,7 @@ const AdminHomeOrderTables = () => {
                 </span>
               </TableCell>
               <TableCell className="text-sm text-muted-foreground">
-                {order.user.email}
+                {/* {order.user.email} */}
               </TableCell>
               <TableCell className="text-right font-medium">
                 {order.totalAmount}
