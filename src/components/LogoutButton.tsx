@@ -2,6 +2,8 @@ import { Button } from "./ui/button";
 import { toast } from "sonner";
 import { useAuth } from "@/context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { Spinner } from "./ui/spinner";
 
 interface LogoutButtonProps {
   type?: "link" | "button";
@@ -11,9 +13,11 @@ interface LogoutButtonProps {
 const LogoutButton = ({ type = "button", size }: LogoutButtonProps) => {
   const { logout } = useAuth();
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   const handleLogout = async () => {
     try {
+      setLoading(true);
       await logout();
 
       toast.success("Logged out successfully");
@@ -22,11 +26,19 @@ const LogoutButton = ({ type = "button", size }: LogoutButtonProps) => {
     } catch {
       toast.error("Error while logging out. Please try again");
     }
+    setLoading(false);
   };
   if (type === "button") {
     return (
-      <Button size={size} onClick={handleLogout}>
-        Logout
+      <Button size={size} onClick={handleLogout} disabled={loading}>
+        {loading ? (
+          <div className="flex items-center justify-center gap-2">
+            <Spinner />
+            Logging out...
+          </div>
+        ) : (
+          <>Logout</>
+        )}
       </Button>
     );
   }
