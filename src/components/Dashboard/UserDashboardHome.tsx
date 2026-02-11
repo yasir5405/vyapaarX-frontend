@@ -8,11 +8,17 @@ import {
 import UserDashboardHomeCard from "../Cards/UserDashboardHomeCard";
 import { Button } from "../ui/button";
 import LogoutButton from "../LogoutButton";
+import { Link } from "react-router-dom";
 
 interface dashboardCardItemsInterface {
   icon: LucideIcon;
   header: string;
   description: string;
+  href: string;
+}
+
+interface Links {
+  name: string;
   href: string;
 }
 
@@ -43,6 +49,14 @@ const UserDashboardHome = () => {
       href: "/my/profile/edit-profile",
     },
   ];
+
+  const links: Links[] = [
+    { name: "FAQs", href: "/faq" },
+    { name: "ABOUT US", href: "/about-us" },
+    { name: "TERMS OF USE", href: "/termsofuse" },
+    { name: "CUSTOMER POLICIES", href: "/customer-policies" },
+    { name: "USEFUL LINKS", href: "/useful-links" },
+  ];
   return (
     <div className="w-full h-full flex flex-col gap-9">
       <div className="w-full p-6 bg-neutral-100 flex md:justify-between sm:items-center justify-center">
@@ -70,6 +84,18 @@ const UserDashboardHome = () => {
             key={idx}
             href={item.href}
           />
+        ))}
+      </div>
+
+      <div className="flex md:hidden flex-col gap-4 pl-8">
+        {links.map((link, idx) => (
+          <Link
+            to={link.href}
+            key={idx}
+            className="font-semibold text-xs text-neutral-400"
+          >
+            {link.name}
+          </Link>
         ))}
       </div>
 

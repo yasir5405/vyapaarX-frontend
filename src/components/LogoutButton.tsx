@@ -30,7 +30,12 @@ const LogoutButton = ({ type = "button", size }: LogoutButtonProps) => {
   };
   if (type === "button") {
     return (
-      <Button size={size} onClick={handleLogout} disabled={loading}>
+      <Button
+        size={size}
+        onClick={handleLogout}
+        disabled={loading}
+        className="uppercase font-semibold"
+      >
         {loading ? (
           <div className="flex items-center justify-center gap-2">
             <Spinner />
