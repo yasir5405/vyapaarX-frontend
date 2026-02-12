@@ -87,7 +87,7 @@ const UserDashboardHome = () => {
         ))}
       </div>
 
-      <div className="flex md:hidden flex-col gap-4 pl-8">
+      <div className="flex md:hidden flex-col gap-4 pl-11.5">
         {links.map((link, idx) => (
           <Link
             to={link.href}

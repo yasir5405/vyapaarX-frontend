@@ -1,15 +1,19 @@
 import type { Order } from "@/api/order.api";
-import { ChevronRight, PackageCheck, Star } from "lucide-react";
+import { ChevronRight, CircleCheck, PackageCheck, Star } from "lucide-react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const UserOrderCard = (order: Order) => {
+  const navigate = useNavigate();
+  const location = useLocation();
   return (
-    <div className="w-full bg-white p-4 flex flex-col rounded-md">
+    <div className="w-full bg-white p-1 md:p-4 flex flex-col rounded-md">
       <div className="flex gap-2 items-center py-1">
         <PackageCheck />
 
         <div className="flex flex-col h-full justify-center">
-          <p className="text-xs font-semibold text-emerald-600">
+          <p className="text-xs font-semibold text-emerald-600 flex items-center gap-1">
             {order.status}
+            <CircleCheck className="size-4"/>
           </p>
 
           <p className="text-xs text-neutral-600">
@@ -24,7 +28,10 @@ const UserOrderCard = (order: Order) => {
       </div>
 
       <div className="w-full p-4 flex gap-4 flex-col bg-neutral-100">
-        <div className="w-full h-full py-3 flex gap-4 cursor-pointer hover:bg-neutral-200 relative">
+        <div
+          className="w-full h-full py-3 flex gap-4 cursor-pointer hover:bg-neutral-200 relative"
+          onClick={() => navigate(`${location.pathname}/${order.id}`)}
+        >
           <ChevronRight className="size-5 absolute top-1/2 right-3 -translate-y-1/2" />
           <img
             src={order.orderItems[0]?.product.image ?? "/no-image.png"}
@@ -37,10 +44,10 @@ const UserOrderCard = (order: Order) => {
               {order.orderItems[0].product.companyName}
             </h1>
 
-            <p className="text-xs text-muted-foreground">
+            <p className="text-xs text-muted-foreground line-clamp-1">
               {order.orderItems[0].product.description}
             </p>
-            <p className="text-xs text-muted-foreground font-semibold">
+            <p className="text-xs text-muted-foreground font-semibold mt-1 md:mt-0">
               Total amount: ₹{order.totalAmount}
             </p>
           </div>

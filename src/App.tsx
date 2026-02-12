@@ -20,6 +20,7 @@ import AdminDashboardHome from "./components/Admin/AdminDashboardHome";
 import UserCart from "./pages/Cart";
 import UserDashboardHome from "./components/Dashboard/UserDashboardHome";
 import UserOrders from "./components/Dashboard/UserOrders";
+import OrderDetails from "./components/Cards/OrderDetails";
 
 const App = () => {
   return (
@@ -50,6 +51,7 @@ const App = () => {
           <Route path="/my" element={<UserDashboard />}>
             <Route index element={<UserDashboardHome />} />
             <Route path="orders" element={<UserOrders />} />
+            <Route path="orders/:id" element={<OrderDetails />} />
           </Route>
         </Route>
       </Route>

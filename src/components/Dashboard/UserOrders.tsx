@@ -45,13 +45,13 @@ const UserOrders = () => {
   return (
     <div className="w-full">
       <div className="w-full flex items-center justify-between px-2 py-2">
-        <div className="flex flex-col">
+        <div className="md:flex flex-col hidden">
           <h1 className="font-semibold text-lg">All orders</h1>
           <p className="text-sm">from anytime</p>
         </div>
 
-        <div className="flex gap-2">
-          <InputGroup className="min-w-xs">
+        <div className="flex gap-2 pb-3 md:py-0">
+          <InputGroup className="w-full md:min-w-sm">
             <InputGroupInput placeholder="Search in orders" />
             <InputGroupAddon>
               <Search />
