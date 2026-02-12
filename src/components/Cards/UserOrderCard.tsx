@@ -6,7 +6,7 @@ const UserOrderCard = (order: Order) => {
   const navigate = useNavigate();
   const location = useLocation();
   return (
-    <div className="w-full bg-white p-1 md:p-4 flex flex-col rounded-md">
+    <div className="w-full bg-background p-1 border md:p-4 flex flex-col rounded-md">
       <div className="flex gap-2 items-center py-1">
         <PackageCheck />
 
@@ -32,7 +32,7 @@ const UserOrderCard = (order: Order) => {
           className="w-full h-full py-3 flex gap-4 cursor-pointer hover:bg-neutral-200 relative"
           onClick={() => navigate(`${location.pathname}/${order.id}`)}
         >
-          <ChevronRight className="size-5 absolute top-1/2 right-3 -translate-y-1/2" />
+          <ChevronRight className="size-4 md:size-5 absolute top-1/2 right-3 -translate-y-1/2" />
           <img
             src={order.orderItems[0]?.product.image ?? "/no-image.png"}
             alt=""
