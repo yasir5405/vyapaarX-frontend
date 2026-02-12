@@ -70,7 +70,7 @@ const UserOrders = () => {
 
       <Separator className="hidden md:block" />
 
-      <div className="w-full flex flex-col gap-6 md:gap-2 bg-neutral-100">
+      <div className="w-full flex flex-col gap-6 md:gap-2">
         {loading ? (
           <div className="flex items-center justify-center gap-2 py-8">
             <Spinner />
@@ -84,6 +84,10 @@ const UserOrders = () => {
           orders.map((order) => <UserOrderCard key={order.id} {...order} />)
         )}
       </div>
+
+      <h1 className="text-xs md:text-sm text-center mt-4 text-muted-foreground">
+        You have reached the end of your orders
+      </h1>
     </div>
   );
 };

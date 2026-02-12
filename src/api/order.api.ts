@@ -51,6 +51,10 @@ export type CreateOrderParams = {
   addressId: number;
 };
 
+export type getOrderParams = {
+  orderId: number;
+};
+
 export const getAllOrders = async (): Promise<ApiResponse<OrderResponse>> => {
   try {
     const res = await api.get(`/orders/admin`);
@@ -114,6 +118,37 @@ export const createOrder = async (
 export const getOrders = async (): Promise<ApiResponse<Order[]>> => {
   try {
     const res = await api.get(`/orders`);
+    return res.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      return (
+        error.response?.data ?? {
+          data: null,
+          message: "Products fetch failed",
+          success: false,
+          error: {
+            message: "Server did not respond",
+          },
+        }
+      );
+    }
+
+    return {
+      data: null,
+      message: "Register failed",
+      success: false,
+      error: {
+        message: "Error fetching products. Please try again",
+      },
+    };
+  }
+};
+
+export const getOrder = async ({
+  orderId,
+}: getOrderParams): Promise<ApiResponse<Order>> => {
+  try {
+    const res = await api.get(`/orders/${orderId}`);
     return res.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
