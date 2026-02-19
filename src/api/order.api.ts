@@ -2,6 +2,7 @@ import axios from "axios";
 import type { ApiResponse } from "./api";
 import api from "./api";
 import type { Products } from "./product.api";
+import type { User } from "./auth.api";
 
 export type OrderItem = {
   id: number;
@@ -33,6 +34,7 @@ export type Order = {
   razorpayPaymentId: string | null;
   razorpaySignature: string | null;
   orderItems: OrderItem[];
+  user: User;
 };
 
 export type CreatedOrderResponse = {

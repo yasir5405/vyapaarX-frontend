@@ -3,8 +3,18 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
 import { Button } from "../ui/button";
-import { CircleCheck, Headset, PackageCheck, Star } from "lucide-react";
+import {
+  Banknote,
+  CircleCheck,
+  Headset,
+  Mail,
+  PackageCheck,
+  Star,
+} from "lucide-react";
 import OrderDetailsSkeleton from "../Skeletons/OrderDetailsSkeleton";
+import { Separator } from "../ui/separator";
+import OrderPriceBreakDown from "./OrderPriceBreakDown";
+import OrderPriceBreakDownMobile from "./OrderPriceBreakDownMobile";
 
 const OrderDetails = () => {
   const { orderId } = useParams();
@@ -123,6 +133,66 @@ const OrderDetails = () => {
               <span className="font-semibold text-emerald-600">
                 win Cashback!
               </span>
+            </p>
+          </div>
+
+          <div className="w-full bg-white flex flex-col py-6 px-3.5 mt-6 gap-4">
+            <h1 className="font-semibold text-base">Delivery Address</h1>
+
+            <div className="flex flex-col w-full gap-2">
+              <p className="flex gap-2 text-xs md:text-sm font-semibold">
+                {order.user.name} <Separator orientation="vertical" />{" "}
+                {order.user.email}
+              </p>
+
+              <p className="text-sm md:text-base text-muted-foreground">
+                {order.addressSnapShot.addressLine},{" "}
+                {order.addressSnapShot.city}, {order.addressSnapShot.state} -{" "}
+                {order.addressSnapShot.postalCode}
+              </p>
+            </div>
+          </div>
+
+          <div className="w-full bg-white flex flex-col py-6 px-3.5 mt-6 gap-4">
+            <div className="flex items-center justify-between">
+              <h1 className="font-semibold text-sm">Total Order Price</h1>
+
+              <p className="font-semibold text-sm flex items-center justify-center gap-2">
+                ₹ {order.totalAmount}.00 <OrderPriceBreakDown order={order} />{" "}
+                <OrderPriceBreakDownMobile order={order}/>
+              </p>
+            </div>
+
+            <div className="w-full py-3 px-5 flex items-center gap-7 bg-muted rounded-md">
+              <Banknote strokeWidth={1.1} />
+
+              <p className="text-sm capitalize">{order.status.toLowerCase()}</p>
+            </div>
+
+            <Separator />
+
+            <Button
+              variant={"outline"}
+              className="hover:bg-transparent font-semibold"
+              size={"lg"}
+            >
+              Get Invoice
+            </Button>
+          </div>
+
+          <div className="w-full bg-white flex flex-col py-6 px-3.5 mt-6 gap-4">
+            <h1 className="font-semibold text-base">Updates sent to</h1>
+
+            <p className="text-sm flex items-center gap-2">
+              <Mail strokeWidth={1.4} className="size-4.5" />
+
+              {order.user.email}
+            </p>
+          </div>
+
+          <div className="w-full bg-white flex flex-col py-6 px-3.5 mt-6 gap-4">
+            <p className="text-muted-foreground text-sm">
+              Order ID # {order.id}
             </p>
           </div>
         </div>
