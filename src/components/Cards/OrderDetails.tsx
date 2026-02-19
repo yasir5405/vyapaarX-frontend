@@ -63,64 +63,68 @@ const OrderDetails = () => {
             Help
             <Headset />
           </Button>
-          {/* <img
-            src={order?.orderItems[0].product.image ?? "/no-image.png"}
-            className="h-36 w-36 object-cover rounded-md"
-            onClick={() =>
-              navigate(`/products/${order?.orderItems[0].product.id}`)
-            }
-          />
+          {order.orderItems.length === 1 ? (
+            <>
+              <img
+                src={order?.orderItems[0].product.image ?? "/no-image.png"}
+                className="h-36 w-36 object-cover rounded-md"
+                onClick={() =>
+                  navigate(`/products/${order?.orderItems[0].product.id}`)
+                }
+              />
 
-          <h1 className="font-semibold text-sm mt-3 text-center">
-            {order?.orderItems[0].product.companyName}
-          </h1>
+              <h1 className="font-semibold text-sm mt-3 text-center">
+                {order?.orderItems[0].product.companyName}
+              </h1>
 
-          <p className="text-sm text-muted-foreground text-center line-clamp-3 mt-1 max-w-[90%]">
-            {order?.orderItems[0].product.description}
-          </p> */}
+              <p className="text-sm text-muted-foreground text-center line-clamp-3 mt-1 max-w-[90%]">
+                {order?.orderItems[0].product.description}
+              </p>
+            </>
+          ) : (
+            <div className="w-full mt-4">
+              <div className="w-full max-w-md mx-auto bg-white rounded-xl overflow-hidden">
+                {order.orderItems.map((item, index) => (
+                  <div key={item.id}>
+                    <div
+                      className="flex gap-4 px-4 py-5 cursor-pointer group"
+                      onClick={() => navigate(`/products/${item.product.id}`)}
+                    >
+                      <img
+                        src={item.product.image ?? "/no-image.png"}
+                        className="h-20 w-20 object-cover rounded-md shrink-0 transition-transform duration-200 group-hover:scale-[1.02]"
+                        alt={item.product.companyName}
+                      />
 
-          <div className="w-full mt-4">
-            <div className="w-full max-w-md mx-auto bg-white rounded-xl overflow-hidden">
-              {order.orderItems.map((item, index) => (
-                <div key={item.id}>
-                  <div
-                    className="flex gap-4 px-4 py-5 cursor-pointer group"
-                    onClick={() => navigate(`/products/${item.product.id}`)}
-                  >
-                    <img
-                      src={item.product.image ?? "/no-image.png"}
-                      className="h-20 w-20 object-cover rounded-md shrink-0 transition-transform duration-200 group-hover:scale-[1.02]"
-                      alt={item.product.companyName}
-                    />
+                      <div className="flex flex-col flex-1 min-w-0">
+                        <h2 className="font-medium text-sm leading-snug group-hover:text-primary transition-colors">
+                          {item.product.companyName}
+                        </h2>
 
-                    <div className="flex flex-col flex-1 min-w-0">
-                      <h2 className="font-medium text-sm leading-snug group-hover:text-primary transition-colors">
-                        {item.product.companyName}
-                      </h2>
-
-                      <p className="text-xs text-muted-foreground line-clamp-2 mt-1">
-                        {item.product.description}
-                      </p>
-
-                      <div className="flex items-center justify-between mt-3">
-                        <p className="text-sm font-semibold tracking-tight">
-                          ₹ {item.price}
+                        <p className="text-xs text-muted-foreground line-clamp-2 mt-1">
+                          {item.product.description}
                         </p>
 
-                        <span className="text-xs text-muted-foreground">
-                          Qty × {item.quantity}
-                        </span>
+                        <div className="flex items-center justify-between mt-3">
+                          <p className="text-sm font-semibold tracking-tight">
+                            ₹ {item.price}
+                          </p>
+
+                          <span className="text-xs text-muted-foreground">
+                            Qty × {item.quantity}
+                          </span>
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  {index !== order.orderItems.length - 1 && (
-                    <div className="mx-4 border-t" />
-                  )}
-                </div>
-              ))}
+                    {index !== order.orderItems.length - 1 && (
+                      <div className="mx-4 border-t" />
+                    )}
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
+          )}
 
           <div className="w-full flex gap-2 items-center py-7 px-4 bg-emerald-500 mt-7">
             <PackageCheck className="text-white md:text-black" />
