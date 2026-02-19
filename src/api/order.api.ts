@@ -45,6 +45,8 @@ export type CreatedOrderResponse = {
 export type OrderResponse = {
   orders: Order[];
   totalOrders: number;
+  totalPages: number;
+  currentPage: number;
 };
 
 export type CreateOrderParams = {
@@ -115,9 +117,12 @@ export const createOrder = async (
   }
 };
 
-export const getOrders = async (): Promise<ApiResponse<Order[]>> => {
+export const getOrders = async (
+  page = 1,
+  limit = 5,
+): Promise<ApiResponse<OrderResponse>> => {
   try {
-    const res = await api.get(`/orders`);
+    const res = await api.get(`/orders?page=${page}&limit=${limit}`);
     return res.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
@@ -135,10 +140,10 @@ export const getOrders = async (): Promise<ApiResponse<Order[]>> => {
 
     return {
       data: null,
-      message: "Register failed",
+      message: "Orders fetch failed",
       success: false,
       error: {
-        message: "Error fetching products. Please try again",
+        message: "Error fetching orders. Please try again",
       },
     };
   }

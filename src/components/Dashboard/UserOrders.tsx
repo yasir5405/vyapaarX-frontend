@@ -16,22 +16,26 @@ import { useAuth } from "@/context/AuthContext";
 const UserOrders = () => {
   const [orders, setOrders] = useState<OrderResponse["orders"]>([]);
   const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   const { user } = useAuth();
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     if (!user) return;
     const fetchOrders = async () => {
       setLoading(true);
       try {
-        const res = await getOrders();
+        const res = await getOrders(page, 5);
 
         if (!res.success || !res.data) {
           toast.error(res.error?.message ?? res.message);
           return;
         }
 
-        setOrders(res.data);
+        setOrders(res.data.orders);
+        setTotalPages(res.data.totalPages);
       } catch {
         toast.error("Error fetching orders. Please try again");
       } finally {
@@ -40,7 +44,7 @@ const UserOrders = () => {
     };
 
     fetchOrders();
-  }, [user]);
+  }, [user, page]);
 
   return (
     <div className="w-full">
@@ -85,9 +89,31 @@ const UserOrders = () => {
         )}
       </div>
 
-      <h1 className="text-xs md:text-sm text-center mt-4 text-muted-foreground">
-        You have reached the end of your orders
-      </h1>
+      <div className="flex justify-center items-center gap-4 mt-6 w-full">
+        <Button
+          disabled={page === 1}
+          onClick={() => setPage((prev) => prev - 1)}
+        >
+          Previous
+        </Button>
+
+        <span className="text-sm text-muted-foreground">
+          Page {page} of {totalPages}
+        </span>
+
+        <Button
+          disabled={page === totalPages}
+          onClick={() => setPage((prev) => prev + 1)}
+        >
+          Next
+        </Button>
+      </div>
+
+      {totalPages === page && (
+        <h1 className="text-xs md:text-sm text-center mt-4 text-muted-foreground">
+          You have reached the end of your orders
+        </h1>
+      )}
     </div>
   );
 };
