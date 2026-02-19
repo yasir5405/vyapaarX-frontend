@@ -7,7 +7,7 @@ import { CATEGORIES } from "@/config/nav";
 const Navbar = () => {
   const navigate = useNavigate();
   return (
-    <nav className="fixed top-0 left-0 w-full h-16 md:h-20 border-b shadow-2xs flex items-center justify-between px-4 md:px-12 z-99 bg-white">
+    <nav className="fixed top-0 left-0 w-full h-16 md:h-20 border-b shadow-2xs flex items-center justify-between px-4 md:px-12 z-50 bg-white">
       <div className="h-full flex items-center justify-center gap-3 md:gap-6">
         <MobileNav />
         <img

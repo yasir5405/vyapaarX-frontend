@@ -74,7 +74,7 @@ const UserOrders = () => {
 
       <Separator className="hidden md:block" />
 
-      <div className="w-full flex flex-col gap-6 md:gap-2">
+      <div className="w-full flex flex-col gap-6 md:gap-2 mt-6">
         {loading ? (
           <div className="flex items-center justify-center gap-2 py-8">
             <Spinner />

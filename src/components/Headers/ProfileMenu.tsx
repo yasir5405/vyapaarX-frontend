@@ -38,7 +38,7 @@ const ProfileMenu = () => {
 
       {/* Dropdown */}
       <div
-        className={`absolute right-1/2 translate-x-1/2 top-full w-64 border bg-white shadow-lg flex flex-col gap-2 transition-all duration-200 ease-out z-50 ${open ? "opacity-100" : "opacity-0 pointer-events-none"} px-4 py-3`}
+        className={`absolute right-1/2 translate-x-1/2 top-full w-64 border bg-white shadow-lg flex flex-col gap-2 transition-all duration-200 ease-out z-60 ${open ? "opacity-100" : "opacity-0 pointer-events-none"} px-4 py-3`}
       >
         <div>
           {user ? (
