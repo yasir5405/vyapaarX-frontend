@@ -13,6 +13,11 @@ export type RegisterPayload = {
   password: string;
 };
 
+export type UpdateUserPayload = {
+  name?: string;
+  email?: string;
+};
+
 export type LoginSuccessData = {
   accessToken: string;
 };
@@ -216,6 +221,37 @@ export const resetPassword = async (
   }
   try {
     const res = await api.post(`/auth/reset-password?token=${token}`, payload);
+    return res.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      return (
+        error.response?.data ?? {
+          data: null,
+          message: "Password reset failed",
+          success: false,
+          error: {
+            message: "Server did not respond",
+          },
+        }
+      );
+    }
+
+    return {
+      data: null,
+      message: "Password reset",
+      success: false,
+      error: {
+        message: "Error sending password reset link. Please try again",
+      },
+    };
+  }
+};
+
+export const updateUser = async (
+  payload: UpdateUserPayload,
+): Promise<ApiResponse<null>> => {
+  try {
+    const res = await api.put(`/auth/edit`, payload);
     return res.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {

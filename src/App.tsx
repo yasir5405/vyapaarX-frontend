@@ -9,6 +9,7 @@ import {
   ResetPassword,
   Unauthorized,
   UserDashboard,
+  UserProfile,
 } from "./pages";
 import AppLayout from "./layouts/AppLayout";
 import ProtectedRoutes from "./components/Protected/ProtectedRoutes";
@@ -21,6 +22,7 @@ import UserCart from "./pages/Cart";
 import UserDashboardHome from "./components/Dashboard/UserDashboardHome";
 import UserOrders from "./components/Dashboard/UserOrders";
 import OrderDetails from "./components/Cards/OrderDetails";
+import EditProfileForm from "./components/Forms/EditProfileForm";
 
 const App = () => {
   return (
@@ -52,6 +54,8 @@ const App = () => {
             <Route index element={<UserDashboardHome />} />
             <Route path="orders" element={<UserOrders />} />
             <Route path="orders/:orderId" element={<OrderDetails />} />
+            <Route path="profile" element={<UserProfile />} />
+            <Route path="profile/edit" element={<EditProfileForm />} />
           </Route>
         </Route>
       </Route>
