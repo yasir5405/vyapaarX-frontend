@@ -21,7 +21,12 @@ import { Spinner } from "../ui/spinner";
 import { toast } from "sonner";
 import { useAuth } from "@/context/AuthContext";
 
-const AddAddressForm = () => {
+interface Props {
+  type?: "link" | "button";
+  size?: "lg" | "sm" | "xs";
+}
+
+const AddAddressForm = ({ type = "link", size }: Props) => {
   const {
     register,
     formState: { errors },
@@ -96,13 +101,24 @@ const AddAddressForm = () => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button
-          className="hidden md:flex capitalize text-sm font-semibold"
-          variant={"link"}
-        >
-          <Plus className="size-3.5" />
-          Add new address
-        </Button>
+        {type === "link" ? (
+          <Button
+            className="hidden md:flex capitalize text-sm font-semibold"
+            variant={"link"}
+          >
+            <Plus className="size-3.5" />
+            Add new address
+          </Button>
+        ) : (
+          <Button
+            className="hidden md:flex capitalize text-sm font-semibold text-primary hover:bg-transparent hover:text-primary"
+            variant={"outline"}
+            size={size}
+          >
+            <Plus className="size-3.5" />
+            Add new address
+          </Button>
+        )}
       </DialogTrigger>
 
       <DialogContent className="sm:max-w-xl max-h-[80dvh] overflow-y-auto z-200">

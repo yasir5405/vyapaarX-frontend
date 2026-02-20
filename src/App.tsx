@@ -1,6 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import AuthLayout from "./layouts/AuthLayout";
 import {
+  Addresses,
   Admin,
   ForgotPassword,
   Home,
@@ -56,6 +57,7 @@ const App = () => {
             <Route path="orders/:orderId" element={<OrderDetails />} />
             <Route path="profile" element={<UserProfile />} />
             <Route path="profile/edit" element={<EditProfileForm />} />
+            <Route path="addresses" element={<Addresses />} />
           </Route>
         </Route>
       </Route>

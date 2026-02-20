@@ -22,7 +22,13 @@ import {
   SheetTrigger,
 } from "../ui/sheet";
 
-const UpdateAddressFormMobile = ({ address }: { address: Address }) => {
+const UpdateAddressFormMobile = ({
+  address,
+  triggerClassnames,
+}: {
+  address: Address;
+  triggerClassnames?: string;
+}) => {
   const {
     register,
     formState: { errors, isDirty },
@@ -116,7 +122,7 @@ const UpdateAddressFormMobile = ({ address }: { address: Address }) => {
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild className="flex md:hidden">
         <Button
-          className="uppercase hover:bg-transparent mr-1 md:mr-0"
+          className={`uppercase hover:bg-transparent mr-1 md:mr-0 ${triggerClassnames && triggerClassnames}`}
           variant={"outline"}
         >
           Edit

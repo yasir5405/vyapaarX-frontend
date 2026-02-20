@@ -22,7 +22,13 @@ import { useAuth } from "@/context/AuthContext";
 import type { Address } from "@/api/auth.api";
 import { Label } from "../ui/label";
 
-const UpdateAddressForm = ({ address }: { address: Address }) => {
+const UpdateAddressForm = ({
+  address,
+  triggerClassnames,
+}: {
+  address: Address;
+  triggerClassnames?: string;
+}) => {
   const {
     register,
     formState: { errors, isDirty },
@@ -115,7 +121,7 @@ const UpdateAddressForm = ({ address }: { address: Address }) => {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild className="hidden md:flex">
         <Button
-          className="uppercase hover:bg-transparent mr-1 md:mr-0"
+          className={`uppercase hover:bg-transparent mr-1 md:mr-0 ${triggerClassnames && triggerClassnames}`}
           variant={"outline"}
         >
           Edit
