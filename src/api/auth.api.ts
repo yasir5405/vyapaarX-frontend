@@ -258,7 +258,7 @@ export const updateUser = async (
       return (
         error.response?.data ?? {
           data: null,
-          message: "Password reset failed",
+          message: "Profile update failed",
           success: false,
           error: {
             message: "Server did not respond",
@@ -269,7 +269,7 @@ export const updateUser = async (
 
     return {
       data: null,
-      message: "Password reset",
+      message: "Profile update failed",
       success: false,
       error: {
         message: "Error sending password reset link. Please try again",

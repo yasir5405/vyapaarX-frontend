@@ -193,9 +193,9 @@ export function LoginForm({
                 </p>
               )}
               <Field>
-                <Button type="submit">
+                <Button type="submit" disabled={loading}>
                   {loading ? (
-                    <span className="flex gap-2">
+                    <span className="flex items-center justify-center gap-2">
                       <Spinner /> Logging in...
                     </span>
                   ) : (

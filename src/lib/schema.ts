@@ -61,3 +61,16 @@ export const addAddressValidationSchema = z.object({
 
 export const updateAddressValidationSchema =
   addAddressValidationSchema.partial();
+
+export const editUserValidationSchema = z.object({
+  name: z
+    .string({ error: "Full name is required." })
+    .min(2, { error: "Name should be at least 2 characters long." })
+    .max(100, { error: "Name should be less than 100 characters long." })
+    .optional()
+    .or(z.literal("").transform(() => undefined)),
+  email: z
+    .email({ error: "Please enter a valid email." })
+    .optional()
+    .or(z.literal("").transform(() => undefined)),
+});

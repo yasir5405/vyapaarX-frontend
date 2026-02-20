@@ -7,6 +7,8 @@ import { Button } from "../ui/button";
 import { useState } from "react";
 import { toast } from "sonner";
 import { Spinner } from "../ui/spinner";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { editUserValidationSchema } from "@/lib/schema";
 
 const EditProfileForm = () => {
   const { user, refreshUser } = useAuth();
@@ -20,6 +22,7 @@ const EditProfileForm = () => {
       email: user?.email,
       name: user?.name,
     },
+    resolver: zodResolver(editUserValidationSchema),
   });
 
   const [loading, setLoading] = useState(false);

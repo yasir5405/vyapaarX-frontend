@@ -35,7 +35,7 @@ const UserDashboardSidebar = () => {
 
         <Link
           to={"/my/orders"}
-          className={`text-sm ${location.pathname === "/my/orders" ? "text-primary font-semibold" : "text-muted-foreground"}`}
+          className={`text-sm ${location.pathname.includes("/orders") ? "text-primary font-semibold" : "text-muted-foreground"}`}
         >
           Orders & Returns
         </Link>
@@ -46,7 +46,7 @@ const UserDashboardSidebar = () => {
 
         <div className="w-full py-1 flex flex-col">
           {accountLinks.map((link, idx) => {
-            const isActive = location.pathname === link.href;
+            const isActive = location.pathname.includes(link.href);
             return (
               <Link
                 to={link.href}
@@ -65,7 +65,7 @@ const UserDashboardSidebar = () => {
 
         <div className="w-full py-1 flex flex-col">
           {legalLinks.map((link, idx) => {
-            const isActive = location.pathname === link.href;
+            const isActive = location.pathname.includes(link.href);
             return (
               <Link
                 to={link.href}
