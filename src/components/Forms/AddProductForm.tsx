@@ -203,10 +203,12 @@ const AddProductForm = ({ onSuccess }: { onSuccess: () => void }) => {
                     </SelectTrigger>
 
                     <SelectContent>
-                      <SelectItem value="1">Men</SelectItem>
-                      <SelectItem value="2">Women</SelectItem>
-                      <SelectItem value="3">Kids</SelectItem>
-                      <SelectItem value="4">Beauty</SelectItem>
+                      <SelectItem value="1">Women</SelectItem>
+                      <SelectItem value="2">Men</SelectItem>
+                      <SelectItem value="3">Beauty</SelectItem>
+                      <SelectItem value="4">Kids</SelectItem>
+                      <SelectItem value="5">Home</SelectItem>
+                      <SelectItem value="6">Genz</SelectItem>
                     </SelectContent>
                   </Select>
                 )}
