@@ -85,12 +85,6 @@ const ProfileMenu = () => {
         <div className="mt-2 flex flex-col gap-1 transition-all">
           <Link
             className="text-sm text-muted-foreground hover:text-black"
-            to={`/saved-cards`}
-          >
-            Saved Cards
-          </Link>
-          <Link
-            className="text-sm text-muted-foreground hover:text-black"
             to={`/saved-addresses`}
           >
             Saved Addresses
@@ -104,7 +98,7 @@ const ProfileMenu = () => {
             <div className="mt-2 flex flex-col gap-1 transition-all">
               <Link
                 className="text-sm text-muted-foreground hover:text-black"
-                to={`/update-profile`}
+                to={`/my/profile/edit`}
               >
                 Update Profile
               </Link>

@@ -8,7 +8,8 @@ import {
 import UserDashboardHomeCard from "../Cards/UserDashboardHomeCard";
 import { Button } from "../ui/button";
 import LogoutButton from "../LogoutButton";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { EDIT_PROFILE_ROUTE } from "@/constants/route";
 
 interface dashboardCardItemsInterface {
   icon: LucideIcon;
@@ -23,6 +24,7 @@ interface Links {
 }
 
 const UserDashboardHome = () => {
+  const navigate = useNavigate();
   const dashboardCardItems: dashboardCardItemsInterface[] = [
     {
       icon: PackageCheck,
@@ -46,7 +48,7 @@ const UserDashboardHome = () => {
       icon: FilePen,
       header: "Profile Details",
       description: "Change your profile details",
-      href: "/my/profile/edit-profile",
+      href: "/my/profile",
     },
   ];
 
@@ -70,6 +72,7 @@ const UserDashboardHome = () => {
           size={"xs"}
           variant={"outline"}
           className="uppercase border-neutral-400 hover:bg-transparent hidden md:flex"
+          onClick={() => navigate(EDIT_PROFILE_ROUTE)}
         >
           Edit Profile
         </Button>
