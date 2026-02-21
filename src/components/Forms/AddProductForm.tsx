@@ -10,7 +10,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "../ui/dialog";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { addProduct, type AddProductParams } from "@/api/product.api";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { productValidationSchema } from "@/lib/schema";
@@ -21,6 +21,13 @@ import { Textarea } from "../ui/textarea";
 import { useState } from "react";
 import { toast } from "sonner";
 import { Spinner } from "../ui/spinner";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
 
 const AddProductForm = ({ onSuccess }: { onSuccess: () => void }) => {
   const {
@@ -29,6 +36,7 @@ const AddProductForm = ({ onSuccess }: { onSuccess: () => void }) => {
     handleSubmit,
     setError,
     reset,
+    control,
   } = useForm<AddProductParams>({
     resolver: zodResolver(productValidationSchema),
   });
@@ -113,7 +121,7 @@ const AddProductForm = ({ onSuccess }: { onSuccess: () => void }) => {
             </DialogDescription>
           </DialogHeader>
 
-          <FieldGroup>
+          <FieldGroup className="mt-7">
             <Field>
               <Label htmlFor="name">Name</Label>
               <Input id="name" {...register("name")} />
@@ -175,6 +183,38 @@ const AddProductForm = ({ onSuccess }: { onSuccess: () => void }) => {
               {errors.highlights && (
                 <p className="text-xs text-red-600 mt-1">
                   {errors.highlights.message || errors.highlights[0]?.message}
+                </p>
+              )}
+            </Field>
+
+            <Field>
+              <Label>Category</Label>
+
+              <Controller
+                name="categoryId"
+                control={control}
+                render={({ field }) => (
+                  <Select
+                    onValueChange={(value) => field.onChange(Number(value))}
+                    value={field.value ? String(field.value) : undefined}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select Category" />
+                    </SelectTrigger>
+
+                    <SelectContent>
+                      <SelectItem value="1">Men</SelectItem>
+                      <SelectItem value="2">Women</SelectItem>
+                      <SelectItem value="3">Kids</SelectItem>
+                      <SelectItem value="4">Beauty</SelectItem>
+                    </SelectContent>
+                  </Select>
+                )}
+              />
+
+              {errors.categoryId && (
+                <p className="text-xs text-red-600 mt-1">
+                  {errors.categoryId.message}
                 </p>
               )}
             </Field>

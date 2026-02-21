@@ -25,6 +25,9 @@ export const productValidationSchema = z.object({
         .max(150, { error: "Highlight should be less than 150 characters" }),
     )
     .min(1, "At least one highlight is required"),
+  categoryId: z.number({
+    error: "Category is required",
+  }),
 });
 
 export const updateProductValidationSchema = productValidationSchema
