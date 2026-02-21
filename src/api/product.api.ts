@@ -2,6 +2,12 @@ import axios from "axios";
 import type { ApiResponse, PaginatedResponse } from "./api";
 import api from "./api";
 
+export interface Category {
+  id: number;
+  name: string;
+  slug: string;
+}
+
 export type Products = {
   id: number;
   companyName: string;
@@ -13,6 +19,8 @@ export type Products = {
   image: string | null;
   isActive: boolean;
   highlights: string[];
+  categoryId: number;
+  category: Category;
 };
 
 type getProductsParams = {
@@ -26,6 +34,7 @@ export type AddProductParams = {
   price: number;
   companyName: string;
   highlights: string[];
+  categoryId: number;
 };
 
 export type UpdateProductParams = {
@@ -36,6 +45,14 @@ export type UpdateProductParams = {
   companyName?: string;
   highlights?: string[];
   isActive?: boolean;
+  categoryId?: number;
+};
+
+export type HomeProducts = {
+  categories: Category[];
+  newArrivals: Products[];
+  menProducts: Products[];
+  womenProducts: Products[];
 };
 
 export const getProducts = async ({
@@ -144,6 +161,7 @@ export const updateProduct = async ({
   name,
   price,
   isActive,
+  categoryId,
 }: UpdateProductParams): Promise<ApiResponse<Products>> => {
   try {
     const res = await api.put(`/products/${productId}`, {
@@ -153,7 +171,37 @@ export const updateProduct = async ({
       highlights,
       price,
       isActive,
+      categoryId,
     });
+    return res.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      return (
+        error.response?.data ?? {
+          data: null,
+          message: "Products fetch failed",
+          success: false,
+          error: {
+            message: "Server did not respond",
+          },
+        }
+      );
+    }
+
+    return {
+      data: null,
+      message: "Register failed",
+      success: false,
+      error: {
+        message: "Error fetching products. Please try again",
+      },
+    };
+  }
+};
+
+export const getHomeProducts = async (): Promise<ApiResponse<HomeProducts>> => {
+  try {
+    const res = await api.get("/products/home");
     return res.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
