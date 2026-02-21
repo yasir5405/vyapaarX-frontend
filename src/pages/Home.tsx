@@ -48,7 +48,7 @@ const Home = () => {
   ];
 
   return (
-    <div className="w-full relative">
+    <div className="w-full relative pb-10">
       <HomePageCarousel />
 
       <div className="w-full py-4 flex flex-col gap-4 items-center mt-3">
@@ -69,7 +69,7 @@ const Home = () => {
       {products && (
         <HomeSection
           products={products?.menProducts}
-          title="Men's"
+          title="Men's Collection"
           desc="Explore our curated collection of men's fashion and accessories"
         />
       )}
@@ -77,7 +77,7 @@ const Home = () => {
       {products && (
         <HomeSection
           products={products?.womenProducts}
-          title="Women's"
+          title="Women's Collection"
           desc="Browse elegant styles and trending fashion for women"
         />
       )}

@@ -14,11 +14,13 @@ const HomeSection = ({ title, products, desc }: Props) => {
         {desc}
       </p>
 
-      <div className="w-full max-w-8xl px-0 grid sm:grid-cols-2 grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-5 mt-3 md:mt-7 md:gap-10">
+      <div className="flex gap-4 overflow-x-auto pb-2 mt-3 sm:grid sm:grid-cols-2 sm:overflow-visible md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 md:mt-7 md:gap-10">
         {products &&
-          products
-            .slice(0, 8)
-            .map((product, idx) => <ProductCard {...product} key={idx} />)}
+          products.slice(0, 8).map((product, idx) => (
+            <div key={idx} className="w-37.5 shrink-0 sm:w-auto">
+              <ProductCard {...product} />
+            </div>
+          ))}
       </div>
     </div>
   );
