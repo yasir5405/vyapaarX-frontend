@@ -1,5 +1,5 @@
 import { addToCart } from "@/api/cart.api";
-import { getProduct, type Products } from "@/api/product.api";
+import { getProductBySlug, type Products } from "@/api/product.api";
 import BreadCrumbs from "@/components/Headers/BreadCrumbs";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -12,7 +12,7 @@ import { useParams } from "react-router-dom";
 import { toast } from "sonner";
 
 const ProductsDetails = () => {
-  const { productId } = useParams();
+  const { slug } = useParams();
 
   const [product, setProduct] = useState<Products | null>(null);
 
@@ -50,7 +50,7 @@ const ProductsDetails = () => {
     window.scrollTo(0, 0);
     const fetchProduct = async () => {
       try {
-        const res = await getProduct(productId!);
+        const res = await getProductBySlug(slug!);
 
         setProduct(res.data);
         console.log(res.data);
@@ -60,7 +60,7 @@ const ProductsDetails = () => {
     };
 
     fetchProduct();
-  }, [productId]);
+  }, [slug]);
 
   return (
     <div className="w-full flex flex-col">

@@ -42,7 +42,7 @@ const ProductCard = (props: Products) => {
   };
   return (
     <div
-      onClick={() => navigate(`/products/${props.id}`)}
+      onClick={() => navigate(`/products/${props.slug}`)}
       className="w-full flex flex-col px-2 py-2 gap-1 border-2 transition-all hover:shadow-md rounded-lg cursor-pointer"
     >
       {/* Image */}
