@@ -21,6 +21,7 @@ export type Products = {
   highlights: string[];
   categoryId: number;
   category: Category;
+  slug: string;
 };
 
 type getProductsParams = {

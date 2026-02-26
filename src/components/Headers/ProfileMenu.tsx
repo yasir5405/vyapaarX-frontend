@@ -85,7 +85,7 @@ const ProfileMenu = () => {
         <div className="mt-2 flex flex-col gap-1 transition-all">
           <Link
             className="text-sm text-muted-foreground hover:text-black"
-            to={`/saved-addresses`}
+            to={`/my/addresses`}
           >
             Saved Addresses
           </Link>
